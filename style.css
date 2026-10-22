@@ -368,24 +368,27 @@ iframe {
   font-size: 14px;
   cursor: pointer;
 }
+/* ====== 專為手機 Safari 而設的完美縮放 ====== */
 @media screen and (max-width: 500px) {
   body {
     padding: 0;
     margin: 0;
+    /* 隱藏超出的部分，確保畫面唔會上下滑動 */
     overflow: hidden; 
     background: #1a1a1a;
-    /* 唔用 flex 置中，直接用絕對定位，確保佢唔會飛出畫面 */
-    position: relative; 
     height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .phone {
-    /* 呢句係魔法：直接量度你部手機嘅闊度，等比例縮細 */
-    transform: scale(calc(100vw / 390)); 
-    /* 將縮細後嘅手機，釘死喺左上角開始計 */
-    transform-origin: top left; 
-    /* 如果頂部有啲位俾網址欄遮住，可以微調呢個數值（例如 10px） */
-    position: absolute;
+    /* 核心魔法：量度手機螢幕闊度，等比例縮細部機 */
+    /* 減 40px 係為咗左右留少少黑邊，冇咁貼邊 */
+    transform: scale(calc((100vw - 40px) / 390)); 
+    transform-origin: center center;
+  }
+}
     top: 10px; 
     left: 0;
   }
