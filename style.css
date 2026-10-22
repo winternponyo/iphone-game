@@ -72,10 +72,31 @@ body {
 .w-desc { font-size: 12px; opacity: 0.8; }
 .w-highlow { font-size: 11px; opacity: 0.6; margin-top: 2px; }
 
-.widget-center { text-align: center; font-size: 12px; font-weight: 600; }
-.w-cal-days { display: flex; gap: 8px; opacity: 0.7; margin-bottom: 2px; }
-.w-cal-nums { display: flex; gap: 8px; }
-.w-cal-nums span { width: 14px; display: inline-block; }
+/* 心心日期排靚啲 */
+.widget-center { 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px; /* 兩行之間嘅空隙 */
+  font-size: 15px; /* 字體大少少 */
+  font-weight: 600;
+}
+.w-cal-days { 
+  display: flex; 
+  gap: 18px; /* 上面 2 同 3 嘅距離 */
+  opacity: 0.7; 
+  padding-left: 2px;
+}
+.w-cal-nums { 
+  display: flex; 
+  gap: 6px; /* 下面 09 ❤️ 19 嘅距離 */
+  align-items: center;
+}
+.w-cal-nums span { 
+  width: 20px; 
+  display: inline-block; 
+  text-align: center;
+}
 .w-cal-nums .today { color: #fff; border-bottom: 2px solid #fff; }
 
 .widget-right { display: flex; align-items: center; }
