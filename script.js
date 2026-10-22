@@ -72,7 +72,7 @@ notif.addEventListener('click', () => {
 });
 // ===== 密碼解鎖邏輯 =====
 let currentPass = '';
-const correctPass = '1234'; // 👈 你可以在這裡改密碼
+const correctPass = '0528'; // 👈 你可以在這裡改密碼
 
 function showPasscode() {
   const passScreen = document.getElementById('passcodeScreen');
