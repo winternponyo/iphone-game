@@ -18,13 +18,11 @@
 
       <!-- 鎖屏 -->
       <div class="lock-screen" id="lockScreen">
-        <!-- 頂部日期 -->
         <div class="lock-date" id="lockDate">10月17日 星期六</div>
         
-        <!-- 中間超大時間 -->
         <div class="lock-time">5:51</div>
         
-        <!-- 鎖屏 Widgets -->
+        <!-- 鎖屏 Widgets (心心排版) -->
         <div class="ios-widgets">
           <div class="widget-left">
             <div class="w-temp"><img src="icon/emoji/sun.png" style="width:16px; vertical-align:middle; filter:invert(1);"> 18°</div>
@@ -34,7 +32,7 @@
           <div class="widget-center">
             <div class="w-cal-days"><span>2</span><span></span><span>3</span></div>
             <div class="w-cal-nums"><span>09</span><span style="color:#ff3b30; font-size:16px;">❤️</span><span>19</span></div>
-          </div>         
+          </div>
           <div class="widget-right">
             <div class="battery-ring"><div class="battery-inner"></div></div>
           </div>
@@ -45,7 +43,10 @@
           <div class="lock-circle">
             <img src="icon/lockflashlight.png" style="width: 26px; height: 26px; filter: invert(1);">
           </div>
-          <div class="swipe-hint" onclick="showPasscode()" style="cursor: pointer; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 20px;">點擊解鎖</div>
+          <!-- 👇 將提示改做點擊解鎖 -->
+          <div class="swipe-hint" onclick="showPasscode()" style="cursor: pointer; padding: 8px 16px; background: rgba(255,255,255,0.15); border-radius: 20px;">
+            點擊解鎖
+          </div>
           <div class="lock-circle">
             <img src="icon/lockcamera.png" style="width: 32px; height: 32px; filter: invert(1);">
           </div>
@@ -81,10 +82,10 @@
           </div>
           <div class="app" onclick="openWeChat()">
             <div class="app-icon"><img src="icon/wechat.png" alt="WeChat"></div>
-            <span>WeChat</span>
+            <span>微信</span>
           </div>
         </div>
- 
+
         <div class="dock">
           <div class="app" onclick="openApp('电话')">
             <div class="app-icon"><img src="icon/phone.png" alt="电话" style="width:110%; height:110%;"></div>
@@ -148,16 +149,6 @@
             <div style="display:flex; justify-content:space-between; font-size:24px; color:#333; margin-top:20px;">
               <span>⏮</span><span>▶️</span><span>⏭</span>
             </div>
-          </div>
-          <div class="cc-box cc-grid-1x2" style="grid-column: span 4; display:flex; gap:15px; padding:15px;">
-            <div style="flex:1; background:rgba(0,0,0,0.05); border-radius:10px; height:120px; display:flex; align-items:flex-end; padding-bottom:10px; justify-content:center; font-size:24px;">☀️</div>
-            <div style="flex:1; background:rgba(0,0,0,0.05); border-radius:10px; height:120px; display:flex; align-items:flex-end; padding-bottom:10px; justify-content:center; font-size:24px;">🔊</div>
-          </div>
-          <div class="cc-box cc-grid-1x4" style="grid-column: span 4; display:flex; justify-content:space-between; padding:15px; font-size:24px;">
-            <div style="width:50px; height:50px; background:rgba(0,0,0,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">🔦</div>
-            <div style="width:50px; height:50px; background:rgba(0,0,0,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">⏱️</div>
-            <div style="width:50px; height:50px; background:rgba(0,0,0,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">🧮</div>
-            <div style="width:50px; height:50px; background:rgba(0,0,0,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">📷</div>
           </div>
         </div>
       </div>
