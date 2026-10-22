@@ -92,7 +92,68 @@ const appData = {
       
     </div>
   `,
-  '电话': '<div style="font-size:15px;line-height:2.2"><img src="icon/emoji/calling.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> 妈妈 · 昨天<br><img src="icon/emoji/calling.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> 小李 · 星期二<br><img src="icon/emoji/calling.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> 快递 · 10月14日</div>',
+  '电话': `
+    <div style="background: #f2f2f7; height: 100%; margin: -20px; padding-top: 10px;">
+      
+      <!-- 頂部標題同編輯按鈕 -->
+      <div style="display: flex; justify-content: space-between; padding: 0 16px; margin-bottom: 10px;">
+        <div style="font-size: 34px; font-weight: bold; color: #000;">最近通话</div>
+        <div style="color: #007aff; font-size: 17px; margin-top: 12px;">编辑</div>
+      </div>
+
+      <!-- 通話記錄列表 -->
+      <div style="background: white; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;">
+        
+        <!-- 記錄 1 (未接來電) -->
+        <div style="display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid #eee;">
+          <div style="color: #ff3b30; font-size: 20px; margin-right: 12px;">↙</div>
+          <div style="flex: 1;">
+            <div style="font-size: 17px; color: #000;">妈妈</div>
+            <div style="font-size: 14px; color: #888;">手机 · 昨天</div>
+          </div>
+          <div style="color: #007aff; font-size: 24px;">ⓘ</div>
+        </div>
+
+        <!-- 記錄 2 (已接來電) -->
+        <div style="display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid #eee;">
+          <div style="color: #888; font-size: 20px; margin-right: 12px;">↙</div>
+          <div style="flex: 1;">
+            <div style="font-size: 17px; color: #000;">小李</div>
+            <div style="font-size: 14px; color: #888;">手机 · 星期二</div>
+          </div>
+          <div style="color: #007aff; font-size: 24px;">ⓘ</div>
+        </div>
+
+        <!-- 記錄 3 (已撥出) -->
+        <div style="display: flex; align-items: center; padding: 12px 16px;">
+          <div style="color: #888; font-size: 20px; margin-right: 12px;">↗</div>
+          <div style="flex: 1;">
+            <div style="font-size: 17px; color: #000;">快递员</div>
+            <div style="font-size: 14px; color: #888;">手机 · 10月14日</div>
+          </div>
+          <div style="color: #007aff; font-size: 24px;">ⓘ</div>
+        </div>
+
+      </div>
+
+      <!-- 底部 Tab Bar (模擬) -->
+      <div style="position: absolute; bottom: 30px; left: 0; right: 0; display: flex; justify-content: space-around; background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); border-top: 1px solid #ddd; padding: 10px 0 20px 0;">
+        <div style="text-align: center; color: #007aff; font-size: 12px;">
+          <div style="font-size: 24px; margin-bottom: 2px;">🕒</div>最近通话
+        </div>
+        <div style="text-align: center; color: #888; font-size: 12px;">
+          <div style="font-size: 24px; margin-bottom: 2px;">👤</div>个人收藏
+        </div>
+        <div style="text-align: center; color: #888; font-size: 12px;">
+          <div style="font-size: 24px; margin-bottom: 2px;">⌨️</div>拨号键盘
+        </div>
+        <div style="text-align: center; color: #888; font-size: 12px;">
+          <div style="font-size: 24px; margin-bottom: 2px;">📞</div>语音留言
+        </div>
+      </div>
+
+    </div>
+  `,
   'Safari': '<div style="text-align:center;padding-top:40px;color:#666"><img src="icon/emoji/global.png" style="width:60px; height:60px; object-fit:contain; margin-bottom:10px;"><br>输入网址开始浏览</div>',
   '音乐': '<div style="text-align:center;padding-top:40px"><img src="icon/emoji/musicnote.png" style="width:80px; height:80px; object-fit:contain; margin-bottom:10px;"><br><div style="margin-top:12px; color:#666;">暂无播放</div></div>'
 };
