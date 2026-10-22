@@ -10,12 +10,13 @@
   <div class="phone">
     <div class="screen">
       
+      <!-- 狀態欄 -->
       <div class="status-bar">
         <span id="statusTime">5:51</span>
         <img src="icon/bar.png" alt="状态栏" style="height: 20px; filter: invert(1); margin-bottom: 2px;">
       </div>
 
-      <!-- 锁屏 -->
+      <!-- 鎖屏 -->
       <div class="lock-screen" id="lockScreen">
         <div class="lock-date">10月17日 星期六</div>
         <div class="lock-time">5:51</div>
@@ -27,7 +28,6 @@
           <div class="lock-circle">
             <img src="icon/lockcamera.png" alt="相机" style="width: 32px; height: 32px; filter: invert(1);">
           </div>
-        </div>
         </div>
       </div>
 
@@ -41,31 +41,18 @@
         
         <!-- 桌面 App 图标 -->
         <div class="app-grid">
-          <!-- 相册 -->
           <div class="app" onclick="openApp('相册')">
-            <div class="app-icon">
-              <img src="icon/photos.png" alt="相册" style="width:100%; height:100%; object-fit:cover; border-radius: 15px;">
-            </div>
+            <div class="app-icon"><img src="icon/photos.png" alt="相册" style="width:100%; height:100%; object-fit:cover; border-radius: 15px;"></div>
             <span>相册</span>
           </div>
-
-          <!-- 天气 -->
           <div class="app" onclick="openApp('天气')">
-            <div class="app-icon">
-              <img src="icon/weather.png" alt="天气" style="width:100%; height:100%; object-fit:cover; border-radius: 15px;">
-            </div>
+            <div class="app-icon"><img src="icon/weather.png" alt="天气" style="width:100%; height:100%; object-fit:cover; border-radius: 15px;"></div>
             <span>天气</span>
           </div>
-
-          <!-- 备忘录 -->
           <div class="app" onclick="openApp('备忘录')">
-            <div class="app-icon">
-              <img src="icon/notes.png" alt="备忘录" style="width:100%; height:100%; object-fit:cover; border-radius: 15px;">
-            </div>
+            <div class="app-icon"><img src="icon/notes.png" alt="备忘录" style="width:100%; height:100%; object-fit:cover; border-radius: 15px;"></div>
             <span>备忘录</span>
           </div>
-
-          <!-- 设置 (特别版) -->
           <div class="app" onclick="openApp('设置')">
             <div class="app-icon" style="background: transparent; box-shadow: none;">
               <img src="icon/settings.png" alt="设置" style="width:110%; height:110%; object-fit:cover; border-radius: 15px;">
@@ -73,10 +60,11 @@
             <span>设置</span>
           </div>
         </div>
+
         <!-- 底部 Dock -->
         <div class="dock">
           <div class="app" onclick="openApp('电话')">
-            <img src="icon/phone.png" alt="电话" style="width:115%; height:115%; object-fit:cover; border-radius: 15px; margin: -7%;">
+            <div class="app-icon"><img src="icon/phone.png" alt="电话" style="width:100%; height:100%; object-fit:cover; border-radius: 15px;"></div>
             <span>电话</span>
           </div>
           <div class="app" onclick="openApp('Safari')">
@@ -90,7 +78,7 @@
         </div>
       </div>
 
-      <!-- 通知 (已經搬出 app-view 外面) -->
+      <!-- 通知 -->
       <div class="notification" id="notification">
         <img src="icon/notes.png" alt="备忘录" style="width:36px; height:36px; object-fit:cover; border-radius:8px;">
         <div class="notif-body">
