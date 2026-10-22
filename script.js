@@ -354,7 +354,7 @@ function sendMessage() {
       reply = replies[Math.floor(Math.random() * replies.length)];
     } 
     else if (currentChatUser === '快递员') {
-      const replies = ['好的，麻烦了！ ', '收到，我回去时拿。 ', '谢谢先！ '];
+      const replies = ['好的，麻烦了！ ', '收到，我回去拿。 ', '谢谢！ '];
       reply = replies[Math.floor(Math.random() * replies.length)];
     } 
     else {
@@ -370,4 +370,9 @@ function handleEnter(e) {
   if (e.key === 'Enter') {
     sendMessage();
   }
+}
+
+function loadSafari() {
+  const url = document.getElementById('safariUrl').value;
+  document.getElementById('safariFrame').src = url;
 }
