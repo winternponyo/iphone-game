@@ -6,6 +6,8 @@ body {
   min-height: 100vh;
   background: #1a1a1a;
   font-family: -apple-system, "PingFang SC", sans-serif;
+  /* 防止手機瀏覽器滑動 */
+  overscroll-behavior: none; 
 }
 .phone {
   position: relative;
@@ -32,8 +34,8 @@ body {
   width: 100%; height: 100%;
   border-radius: 45px;
   overflow: hidden;
+  /* 預設背景 */
   background: linear-gradient(160deg, #1c1c3a 0%, #3a2b5c 40%, #6b4c7a 70%, #b76e79 100%);
-  transition: background 0.5s ease;
 }
 
 /* ====== iOS 26 鎖屏 ====== */
@@ -46,9 +48,13 @@ body {
   color: #fff;
   z-index: 10;
   transition: transform 0.4s ease;
-  touch-action: none;
-  background: rgba(0, 0, 0, 0.2);
-  padding-top: 70px; /* 預留狀態欄 */
+  /* 修正觸控事件，確保唔會俾其他圖層食咗 */
+  touch-action: none; 
+  /* 解決太透明穿崩問題：加厚深色半透明底 */
+  background: linear-gradient(160deg, rgba(28,28,58,0.85) 0%, rgba(58,43,92,0.85) 40%, rgba(107,76,122,0.85) 70%, rgba(183,110,121,0.85) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding-top: 70px;
 }
 .lock-screen.unlocked { transform: translateY(-100%); }
 .lock-date { font-size: 18px; font-weight: 500; opacity: 0.9; margin-bottom: 5px; }
@@ -87,7 +93,7 @@ body {
   border-radius: 50%;
   border: 3px solid #fff;
   clip-path: polygon(50% 50%, 100% 0, 100% 100%, 0 100%, 0 0);
-  transform: rotate(45deg); /* 模擬 80% 電量 */
+  transform: rotate(45deg);
 }
 .battery-inner { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.1); }
 
@@ -139,7 +145,7 @@ body {
   border-radius: 28px; padding: 12px 0;
 }
 
-/* ====== App 彈層 ====== */
+/* ====== App 彈層 & 狀態欄 & 密碼 & 控制中心 ====== */
 .app-view {
   position: absolute; inset: 0;
   background: #f2f2f7; z-index: 20;
@@ -148,17 +154,10 @@ body {
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 .app-view.show { opacity: 1; transform: scale(1); pointer-events: auto; }
-.app-header {
-  display: flex; align-items: center; gap: 12px;
-  padding: 60px 16px 12px; background: #fff; border-bottom: 1px solid #ddd;
-}
-.app-header button {
-  border: none; background: none; color: #007aff;
-  font-size: 16px; cursor: pointer;
-}
+.app-header { display: flex; align-items: center; gap: 12px; padding: 60px 16px 12px; background: #fff; border-bottom: 1px solid #ddd; }
+.app-header button { border: none; background: none; color: #007aff; font-size: 16px; cursor: pointer; }
 .app-content { flex: 1; padding: 0; color: #333; overflow-y: auto; }
 
-/* ====== 狀態欄 ====== */
 .status-bar {
   position: absolute; top: 0; left: 0; right: 0; height: 54px;
   display: flex; justify-content: space-between; align-items: flex-end;
@@ -166,38 +165,26 @@ body {
   z-index: 30; pointer-events: auto;
 }
 
-/* ====== 密碼解鎖 ====== */
 .passcode-screen {
   position: absolute; inset: 0;
-  background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   z-index: 25; display: none; flex-direction: column; align-items: center; justify-content: center; color: #fff;
 }
 .passcode-screen.show { display: flex; }
 .passcode-title { font-size: 16px; margin-bottom: 20px; font-weight: 500; }
 .passcode-dots { display: flex; gap: 20px; margin-bottom: 50px; }
-.dot {
-  width: 14px; height: 14px; border-radius: 50%;
-  border: 1.5px solid #fff; background: transparent; transition: background 0.2s;
-}
+.dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid #fff; background: transparent; transition: background 0.2s; }
 .dot.filled { background: #fff; }
 .keypad { display: grid; grid-template-columns: repeat(3, 75px); gap: 15px 25px; }
-.key {
-  width: 75px; height: 75px; border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 32px; font-weight: 300; cursor: pointer; user-select: none;
-}
+.key { width: 75px; height: 75px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 300; cursor: pointer; user-select: none; }
 .key:active { background: rgba(255, 255, 255, 0.5); }
 .key.empty { background: transparent; cursor: default; }
 
-/* ====== 控制中心 ====== */
 .control-center {
-  position: absolute; inset: 0;
-  background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(20px);
+  position: absolute; inset: 0; background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   z-index: 45; display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
   padding-top: 60px; transform: translateY(-100%);
-  transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-  opacity: 0; pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2); opacity: 0; pointer-events: none;
 }
 .control-center.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
 .cc-panel { width: 350px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
@@ -206,31 +193,18 @@ body {
 
 /* ====== WeChat 專用樣式 ====== */
 .wechat-bg { background: #ededed; height: 100%; display: flex; flex-direction: column; }
-.wechat-header {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 16px; background: #ededed; z-index: 2;
-}
+.wechat-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: #ededed; z-index: 2; }
 .wechat-header-title { font-size: 20px; font-weight: bold; color: #000; }
 .wechat-header-icons { display: flex; gap: 15px; font-size: 20px; color: #333; cursor: pointer; }
-.wechat-search {
-  margin: 0 16px 10px; background: #fff; border-radius: 6px;
-  padding: 6px 10px; text-align: center; color: #999; font-size: 14px;
-}
-.wechat-list-item {
-  display: flex; align-items: center; padding: 12px 16px;
-  background: #fff; border-bottom: 1px solid #f0f0f0; cursor: pointer;
-}
+.wechat-search { margin: 0 16px 10px; background: #fff; border-radius: 6px; padding: 6px 10px; text-align: center; color: #999; font-size: 14px; }
+.wechat-list-item { display: flex; align-items: center; padding: 12px 16px; background: #fff; border-bottom: 1px solid #f0f0f0; cursor: pointer; }
 .wechat-list-item:active { background: #f5f5f5; }
-.wechat-list-item.pinned { background: #f0f0f0; } /* 置頂顏色 */
-.wechat-avatar {
-  width: 48px; height: 48px; border-radius: 6px; background: #ccc;
-  margin-right: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px;
-}
+.wechat-list-item.pinned { background: #f0f0f0; }
+.wechat-avatar { width: 48px; height: 48px; border-radius: 6px; background: #ccc; margin-right: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
 .wechat-info { flex: 1; overflow: hidden; }
 .wechat-name { font-size: 16px; color: #111; margin-bottom: 4px; display: flex; justify-content: space-between; }
 .wechat-msg { font-size: 13px; color: #999; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
 
-/* WeChat 聊天介面 */
 .wechat-chat-bg { background: #ededed; height: 100%; display: flex; flex-direction: column; }
 .wechat-msg-container { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
 .wechat-bubble { max-width: 70%; padding: 10px 14px; border-radius: 8px; font-size: 15px; line-height: 1.4; word-wrap: break-word; }
@@ -240,11 +214,14 @@ body {
 .wechat-input { flex: 1; padding: 10px; border-radius: 6px; border: none; outline: none; font-size: 15px; }
 .wechat-send-btn { background: #07c160; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 14px; cursor: pointer; }
 
-/* ====== 強制手機版 Fit 螢幕 ====== */
+/* ====== 強制手機版 Fit 螢幕 (修正 Safari 遮擋問題) ====== */
 @media screen and (max-width: 500px) {
   body { padding: 0; margin: 0; overflow: hidden; background: #1a1a1a; height: 100vh; display: flex; align-items: center; justify-content: center; }
-  .phone { width: 320px !important; height: 693px !important; transform: none !important; border-radius: 40px !important; padding: 8px !important; }
+  /* 高度由 693 改為 640，確保底部 Dock 唔會畀 Safari 遮住 */
+  .phone { width: 320px !important; height: 640px !important; transform: none !important; border-radius: 40px !important; padding: 8px !important; margin-top: 20px; }
   .phone::after { width: 100px !important; height: 28px !important; top: 18px !important; border-radius: 15px !important; }
   .screen { border-radius: 35px !important; }
-  .lock-time { font-size: 76px !important; }
+  .lock-time { font-size: 76px !important; margin-bottom: 10px !important; }
+  .ios-widgets { margin-bottom: 10px !important; }
+  .lock-hint { margin-top: 0 !important; }
 }
