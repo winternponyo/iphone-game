@@ -368,25 +368,25 @@ iframe {
   font-size: 14px;
   cursor: pointer;
 }
-/* 令手機喺真實手機螢幕上自動縮細，確保 Fit 到畫面 */
-/* ====== 解決手機螢幕不 Fit 的問題 ====== */
 @media screen and (max-width: 500px) {
   body {
     padding: 0;
     margin: 0;
-    overflow: hidden; /* 唔畀畫面上下滑動 */
+    overflow: hidden; 
     background: #1a1a1a;
+    /* 唔用 flex 置中，直接用絕對定位，確保佢唔會飛出畫面 */
+    position: relative; 
     height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
   
   .phone {
-    /* 強制將 390x844 嘅手機框，等比例縮放到啱啱好塞入你部手機螢幕 */
+    /* 呢句係魔法：直接量度你部手機嘅闊度，等比例縮細 */
     transform: scale(calc(100vw / 390)); 
-    transform-origin: center center;
-    margin-top: 50px; /* 避開 Safari 頂部網址欄 */
-    margin-bottom: 30px; /* 避開 Safari 底部工具欄 */
+    /* 將縮細後嘅手機，釘死喺左上角開始計 */
+    transform-origin: top left; 
+    /* 如果頂部有啲位俾網址欄遮住，可以微調呢個數值（例如 10px） */
+    position: absolute;
+    top: 10px; 
+    left: 0;
   }
 }
