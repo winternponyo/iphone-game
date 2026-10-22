@@ -368,3 +368,15 @@ iframe {
   font-size: 14px;
   cursor: pointer;
 }
+/* 令手機喺真實手機螢幕上自動縮細，確保 Fit 到畫面 */
+@media screen and (max-width: 500px) {
+  body {
+    padding: 0;
+    overflow: hidden; /* 防止畫面滑動 */
+  }
+  .phone {
+    /* 根據螢幕高度自動縮放，大約留 20px 上下空間 */
+    transform: scale(calc((100vh - 20px) / 844)); 
+    transform-origin: center center;
+  }
+}
