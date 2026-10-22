@@ -124,12 +124,41 @@ body {
 .wechat-input { flex: 1; padding: 10px; border-radius: 6px; border: none; outline: none; font-size: 15px; }
 .wechat-send-btn { background: #07c160; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 14px; cursor: pointer; }
 
-/* 手機版 Fit 螢幕 */
+/* ====== 完美自適應手機尺寸 (保證唔會切底) ====== */
 @media screen and (max-width: 500px) {
-  body { padding: 0; margin: 0; overflow: hidden; background: #1a1a1a; height: 100vh; display: flex; align-items: center; justify-content: center; }
-  .phone { width: 320px !important; height: 680px !important; transform: none !important; border-radius: 45px !important; padding: 8px !important; margin: 0 !important; }
-  .phone::after { width: 95px !important; height: 26px !important; top: 16px !important; border-radius: 15px !important; }
-  .screen { border-radius: 38px !important; }
-  .lock-time { font-size: 76px !important; margin-bottom: 10px !important; }
-  .ios-widgets { margin-bottom: 10px !important; }
+  body { 
+    padding: 0; 
+    margin: 0; 
+    overflow: hidden; 
+    background: #1a1a1a; 
+    height: 100vh; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    position: fixed; 
+    width: 100%;
+  }
+  
+  .phone { 
+    /* 量度螢幕闊度，自動縮放，預留 30px 邊距 */
+    transform: scale(calc((100vw - 30px) / 390)) !important; 
+    transform-origin: center center !important;
+    /* 唔再寫死大細，用返原本嘅 390x844 */
+    width: 390px !important; 
+    height: 844px !important; 
+    border-radius: 55px !important; 
+    padding: 10px !important; 
+    margin: 0 !important;
+  }
+  
+  .phone::after { 
+    width: 120px !important; 
+    height: 34px !important; 
+    top: 22px !important; 
+    border-radius: 20px !important; 
+  }
+  
+  .screen { 
+    border-radius: 45px !important; 
+  }
 }
