@@ -10,7 +10,7 @@
   <div class="phone">
     <div class="screen">
       
-      <!-- 狀態欄 -->
+      <!-- 狀態欄 (配合 iOS 26 風格，全白字體) -->
       <div class="status-bar">
         <span id="statusTime">5:51</span>
         <img src="icon/bar.png" alt="状态栏" style="height: 20px; filter: invert(1); margin-bottom: 2px;">
@@ -18,16 +18,43 @@
 
       <!-- 鎖屏 -->
       <div class="lock-screen" id="lockScreen">
-        <div class="lock-date">10月17日 星期六</div>
-        <!-- 中間大時間 -->
+        <!-- 頂部日期 -->
+        <div class="lock-date" id="lockDate">10月17日 星期六</div>
+        
+        <!-- 中間超大時間 -->
         <div class="lock-time">5:51</div>
         
-        <!-- 👇 解謎提示 Widget -->
-        <div class="lock-widgets">
-          <div class="lock-widget-item">
-            <span>🔒 我们的生日 = ?</span>
+        <!-- 👇 仿 iOS 26 鎖屏 Widgets 排版 -->
+        <div class="ios-widgets">
+          <!-- 左邊：天氣 -->
+          <div class="widget-left">
+            <div class="w-temp"><img src="icon/emoji/sun.png" style="width:16px; vertical-align:middle; filter:invert(1);"> 18°</div>
+            <div class="w-desc">多云</div>
+            <div class="w-highlow">最高21° 最低12°</div>
           </div>
-        </div>        <div class="lock-bottom">
+          
+          <!-- 中間：日曆 (解謎提示藏喺呢度) -->
+          <div class="widget-center">
+            <div class="w-cal-days"><span>五</span><span>六</span><span>日</span></div>
+            <div class="w-cal-nums"><span>12</span><span>13</span><span class="today">14</span></div>
+          </div>
+          
+          <!-- 右邊：圓形電量圈 -->
+          <div class="widget-right">
+            <div class="battery-ring">
+              <div class="battery-inner"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 解謎提示 (唔直接寫密碼，用一個小備忘錄圖標暗示) -->
+        <div class="lock-hint">
+          <img src="icon/notes.png" style="width: 16px; height: 16px; border-radius: 4px;">
+          <span>我的生日 + 小昱的生日</span>
+        </div>
+
+        <!-- 底部手電筒同相機 -->
+        <div class="lock-bottom">
           <div class="lock-circle">
             <img src="icon/lockflashlight.png" alt="手电筒" style="width: 26px; height: 26px; filter: invert(1);">
           </div>
@@ -60,12 +87,6 @@
             <div class="app-icon"><img src="icon/notes.png" alt="备忘录" style="width:100%; height:100%; object-fit:cover; border-radius: 15px;"></div>
             <span>备忘录</span>
           </div>
-          <div class="app" onclick="openWeChat()">
-            <div class="app-icon">
-              <img src="icon/wechat.png" alt="WeChat" style="width:100%; height:100%; object-fit:cover; border-radius: 15px;">
-            </div>
-            <span>WeChat</span>
-          </div>
           <div class="app" onclick="openApp('设置')">
             <div class="app-icon" style="background: transparent; box-shadow: none;">
               <img src="icon/settings.png" alt="设置" style="width:110%; height:110%; object-fit:cover; border-radius: 15px;">
@@ -87,17 +108,6 @@
           <div class="app" onclick="openApp('音乐')">
             <div class="app-icon"><img src="icon/music.png" alt="音乐" style="width:100%; height:100%; object-fit:cover; border-radius: 15px;"></div>
             <span>音乐</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 通知 -->
-      <div class="notification" id="notification">
-        <img src="icon/notes.png" alt="备忘录" style="width:36px; height:36px; object-fit:cover; border-radius:8px;">
-        <div class="notif-body">
-          <div class="notif-title">备忘录</div>
-          <div class="notif-text">
-            她的生日 <img src="icon/emoji/cake.png" alt="蛋糕" style="width: 16px; height: 16px; vertical-align: middle; margin: 0 2px;"> 2月9日 · 35天后
           </div>
         </div>
       </div>
@@ -134,7 +144,7 @@
         <div class="app-content" id="appContent"></div>
       </div>
 
-      <!-- 👇 控制中心 (搬返入 screen 入面) -->
+      <!-- 控制中心 -->
       <div class="control-center" id="controlCenter">
         <div class="cc-panel">
           <div class="cc-box cc-grid-2x2">
