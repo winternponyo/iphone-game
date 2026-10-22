@@ -137,10 +137,10 @@ const appData = {
   'Safari': `
     <div style="display: flex; flex-direction: column; height: 100%; background: #f2f2f7;">
       <div style="padding: 10px; background: #fff; border-bottom: 1px solid #ddd; display: flex; gap: 10px; align-items: center;">
-        <input type="text" value="https://www.google.com/webhp?igu=1" readonly style="flex:1; padding: 8px; border-radius: 10px; border: none; background: #f2f2f7; font-size:14px; text-align:center;">
+        <input type="text" value="https://www.baidu.com" readonly style="flex:1; padding: 8px; border-radius: 10px; border: none; background: #f2f2f7; font-size:14px; text-align:center;">
       </div>
       <div style="flex: 1; padding: 10px;">
-        <iframe src="https://www.google.com/webhp?igu=1" style="border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);"></iframe>
+        <iframe src="https://www.baidu.com" style="border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);"></iframe>
       </div>
     </div>
   `,
