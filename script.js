@@ -48,7 +48,10 @@ const appData = {
   
   '备忘录': `
     <div style="padding: 20px; height: 100%; display: flex; flex-direction: column;">
-      <div style="font-size: 22px; font-weight: bold; margin-bottom: 10px;">她的生日 🎂</div>
+      <div style="font-size: 22px; font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+        她的生日 
+        <img src="icon/emoji/cake.png" alt="蛋糕" style="width: 24px; height: 24px; object-fit: contain;">
+      </div>
       <div style="font-size: 12px; color: #888; margin-bottom: 20px;">2月9日 · 10天后</div>
       <textarea style="flex: 1; width: 100%; border: none; outline: none; font-size: 16px; font-family: inherit; background: transparent; resize: none;" placeholder="在这里输入内容...">记得订餐厅。</textarea>
     </div>
