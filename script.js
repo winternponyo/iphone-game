@@ -48,12 +48,12 @@ const appData = {
   '相册': '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px">' +
           ['🌄','🏙️','🌊','🌸','🐱','🍜'].map(e =>
           `<div style="aspect-ratio:1;background:#ddd;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:28px">${e}</div>`).join('') + '</div>',
-  '天气': '<div style="text-align:center;padding-top:40px"><div style="font-size:64px">☀️</div><div style="font-size:48px;font-weight:200">18°</div><div style="color:#666">首尔 · 大部晴朗</div><div style="margin-top:20px;color:#999">最高21° 最低12°</div></div>',
-  '备忘录': '<div style="font-size:15px;line-height:1.8"><b>이소희的生日 <img src="icon/cake.png" alt="蛋糕" style="width: 16px; height: 16px; vertical-align: middle; margin: 0 2px;"> </b><br>11月21日 · 35天后<br><br>记得提前准备礼物。</div>',
-  '设置': '<div style="font-size:15px;line-height:2.4">📶 蜂窝网络<br>📡 Wi-Fi<br>🔔 通知<br>🔒 隐私与安全</div>',
-  '电话': '<div style="font-size:15px;line-height:2.2">📞 妈妈 · 昨天<br>📞 小李 · 星期二<br>📞 快递 · 10月14日</div>',
-  'Safari': '<div style="text-align:center;padding-top:60px;color:#999">🌐<br>输入网址开始浏览</div>',
-  '音乐': '<div style="text-align:center;padding-top:40px"><div style="font-size:60px">🎵</div><div style="margin-top:12px">暂无播放</div></div>'
+  '天气': '<div style="text-align:center;padding-top:40px"><img src="icon/emoji/sun.png" alt="太阳" style="width:80px; height:80px; object-fit:contain;"><div style="font-size:48px;font-weight:200; margin-top:10px;">18°</div><div style="color:#666">首尔 · 大部晴朗</div><div style="margin-top:20px;color:#999">最高21° 最低12°</div></div>',
+  '备忘录': '<div style="font-size:15px;line-height:1.8"><b>她的生日 <img src="icon/emoji/cake.png" style="width:18px; height:18px; vertical-align:middle;"> </b><br>11月21日 · 35天后<br><br>记得提前准备礼物。</div>',
+  '设置': '<div style="font-size:15px;line-height:2.4"><img src="icon/emoji/signal.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> 蜂窝网络<br><img src="icon/emoji/antenna.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> Wi-Fi<br><img src="icon/emoji/bell.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> 通知<br><img src="icon/emoji/lock.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> 隐私与安全</div>',
+  '电话': '<div style="font-size:15px;line-height:2.2"><img src="icon/emoji/calling.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> 妈妈 · 昨天<br><img src="icon/emoji/calling.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> 小李 · 星期二<br><img src="icon/emoji/calling.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> 快递 · 10月14日</div>',
+  'Safari': '<div style="text-align:center;padding-top:40px;color:#666"><img src="icon/emoji/global.png" style="width:60px; height:60px; object-fit:contain; margin-bottom:10px;"><br>输入网址开始浏览</div>',
+  '音乐': '<div style="text-align:center;padding-top:40px"><img src="icon/emoji/musicnote.png" style="width:80px; height:80px; object-fit:contain; margin-bottom:10px;"><br><div style="margin-top:12px; color:#666;">暂无播放</div></div>'
 };
 
 function openApp(name) {
