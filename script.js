@@ -262,10 +262,109 @@ screenEl.addEventListener('touchend', e => {
     isCCDragging = false;
   }
 });
+// ===== WeChat 邏輯 =====
+let currentChatUser = '';
 
-// 撳控制中心空白位關閉
-controlCenter.addEventListener('click', e => {
-  if(e.target === controlCenter || e.target.classList.contains('cc-panel')) {
-    controlCenter.classList.remove('show');
+function openWeChat() {
+  appTitle.textContent = 'WeChat';
+  // 顯示返回按鈕，並設定點擊後的行為（返主屏幕）
+  document.querySelector('.app-header button').onclick = function() { closeApp(); };
+  
+  // 渲染聊天列表
+  appContent.innerHTML = `
+    <div style="background: #ededed; height: 100%;">
+      <div class="wechat-list-item" onclick="openChat('妈妈')">
+        <div class="wechat-avatar" style="background: #ffb6c1;">👩</div>
+        <div class="wechat-info">
+          <div class="wechat-name"><span>妈妈</span> <span style="font-size:12px; color:#999;">昨天</span></div>
+          <div class="wechat-msg">今晚回来吃饭？</div>
+        </div>
+      </div>
+      <div class="wechat-list-item" onclick="openChat('小咪')">
+        <div class="wechat-avatar" style="background: #87ceeb;">😼</div>
+        <div class="wechat-info">
+          <div class="wechat-name"><span>小咪</span> <span style="font-size:12px; color:#999;">10:30</span></div>
+          <div class="wechat-msg">在哪？</div>
+        </div>
+      </div>
+      <div class="wechat-list-item" onclick="openChat('快递员')">
+        <div class="wechat-avatar" style="background: #f0e68c;">📦</div>
+        <div class="wechat-info">
+          <div class="wechat-name"><span>快递员</span> <span style="font-size:12px; color:#999;">星期一</span></div>
+          <div class="wechat-msg">林先生，你的包裹到了，给您放门口了。</div>
+        </div>
+      </div>
+    </div>
+  `;
+  appView.classList.add('show');
+}
+
+function openChat(user) {
+  currentChatUser = user;
+  appTitle.textContent = user;
+  
+  // 修改返回按鈕行為：由聊天室退返去聊天列表
+  document.querySelector('.app-header button').onclick = function() { openWeChat(); };
+
+  // 根據唔同人設定初始對話 (完全跟足你嘅設定)
+  let initialMsg = '早';
+  if (user === '妈妈') initialMsg = '今晚回来吃饭？';
+  if (user === '小咪') initialMsg = '在哪？';
+  if (user === '快递员') initialMsg = '林先生，你的包裹到了，给您放门口了。';
+
+  appContent.innerHTML = `
+    <div class="wechat-chat-bg">
+      <div class="wechat-msg-container" id="chatContainer">
+        <!-- 初始對話 -->
+        <div class="wechat-bubble left">${initialMsg}</div>
+      </div>
+      <div class="wechat-input-area">
+        <input type="text" class="wechat-input" id="chatInput" placeholder="输入讯息..." onkeypress="handleEnter(event)">
+        <button class="wechat-send-btn" onclick="sendMessage()">发送</button>
+      </div>
+    </div>
+  `;
+}
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const container = document.getElementById('chatContainer');
+
+  // 加入自己嘅訊息（右邊綠色氣泡）
+  container.innerHTML += `<div class="wechat-bubble right">${text}</div>`;
+  input.value = '';
+  container.scrollTop = container.scrollHeight;
+
+  // 模擬對方自動回覆 (配合你設定嘅角色)
+  setTimeout(() => {
+    let reply = '';
+    
+    if (currentChatUser === '妈妈') {
+      const replies = ['我做了你喜欢吃的菜，快回来吧', '还没下班吗？', '好，那我留饭给你。'];
+      reply = replies[Math.floor(Math.random() * replies.length)];
+    } 
+    else if (currentChatUser === '小咪') {
+      const replies = ['我也，快下班了！ ', '忙着呢，一会再说', '什么时候？ '];
+      reply = replies[Math.floor(Math.random() * replies.length)];
+    } 
+    else if (currentChatUser === '快递员') {
+      const replies = ['好的，麻烦了！ ', '收到，我回去时拿。 ', '谢谢先！ '];
+      reply = replies[Math.floor(Math.random() * replies.length)];
+    } 
+    else {
+      reply = '收到！';
+    }
+
+    container.innerHTML += `<div class="wechat-bubble left">${reply}</div>`;
+    container.scrollTop = container.scrollHeight;
+  }, 1000); // 1秒後回覆
+}
+
+function handleEnter(e) {
+  if (e.key === 'Enter') {
+    sendMessage();
   }
-});
+}
