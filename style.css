@@ -369,14 +369,24 @@ iframe {
   cursor: pointer;
 }
 /* 令手機喺真實手機螢幕上自動縮細，確保 Fit 到畫面 */
+/* ====== 解決手機螢幕不 Fit 的問題 ====== */
 @media screen and (max-width: 500px) {
   body {
     padding: 0;
-    overflow: hidden; /* 防止畫面滑動 */
+    margin: 0;
+    overflow: hidden; /* 唔畀畫面上下滑動 */
+    background: #1a1a1a;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+  
   .phone {
-    /* 根據螢幕高度自動縮放，大約留 20px 上下空間 */
-    transform: scale(calc((100vh - 20px) / 844)); 
+    /* 強制將 390x844 嘅手機框，等比例縮放到啱啱好塞入你部手機螢幕 */
+    transform: scale(calc(100vw / 390)); 
     transform-origin: center center;
+    margin-top: 50px; /* 避開 Safari 頂部網址欄 */
+    margin-bottom: 30px; /* 避開 Safari 底部工具欄 */
   }
 }
