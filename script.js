@@ -136,11 +136,14 @@ const appData = {
 
   'Safari': `
     <div style="display: flex; flex-direction: column; height: 100%; background: #f2f2f7;">
-      <div style="padding: 10px; background: #fff; border-bottom: 1px solid #ddd; display: flex; gap: 10px; align-items: center;">
-        <input type="text" value="https://www.baidu.com" readonly style="flex:1; padding: 8px; border-radius: 10px; border: none; background: #f2f2f7; font-size:14px; text-align:center;">
+      <!-- 頂部網址欄 -->
+      <div style="padding: 10px; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-bottom: 1px solid #ddd; display: flex; gap: 10px; align-items: center; z-index: 10;">
+        <input type="text" id="safariUrl" value="https://m.baidu.com/" placeholder="搜尋或輸入網址" style="flex:1; padding: 8px; border-radius: 10px; border: none; background: #e5e5ea; font-size:14px; text-align:center; outline:none;">
+        <button onclick="loadSafari()" style="border:none; background:none; color:#007aff; font-size:16px; cursor:pointer;">前往</button>
       </div>
-      <div style="flex: 1; padding: 10px;">
-        <iframe src="https://www.baidu.com" style="border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);"></iframe>
+      <!-- 內嵌網頁 -->
+      <div style="flex: 1; background: #fff;">
+        <iframe id="safariFrame" src="https://m.baidu.com/" style="width:100%; height:100%; border:none;"></iframe>
       </div>
     </div>
   `,
