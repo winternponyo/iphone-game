@@ -214,14 +214,60 @@ body {
 .wechat-input { flex: 1; padding: 10px; border-radius: 6px; border: none; outline: none; font-size: 15px; }
 .wechat-send-btn { background: #07c160; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 14px; cursor: pointer; }
 
-/* ====== 強制手機版 Fit 螢幕 (修正 Safari 遮擋問題) ====== */
+/* ====== 強制手機版 Fit 螢幕 (修正版) ====== */
 @media screen and (max-width: 500px) {
-  body { padding: 0; margin: 0; overflow: hidden; background: #1a1a1a; height: 100vh; display: flex; align-items: center; justify-content: center; }
-  /* 高度由 693 改為 640，確保底部 Dock 唔會畀 Safari 遮住 */
-  .phone { width: 320px !important; height: 640px !important; transform: none !important; border-radius: 40px !important; padding: 8px !important; margin-top: 20px; }
-  .phone::after { width: 100px !important; height: 28px !important; top: 18px !important; border-radius: 15px !important; }
-  .screen { border-radius: 35px !important; }
-  .lock-time { font-size: 76px !important; margin-bottom: 10px !important; }
-  .ios-widgets { margin-bottom: 10px !important; }
-  .lock-hint { margin-top: 0 !important; }
+  body { 
+    padding: 0; 
+    margin: 0; 
+    overflow: hidden; 
+    background: #1a1a1a; 
+    height: 100vh; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    /* 防止 Safari 橡皮筋上下滑動 */
+    position: fixed; 
+    width: 100%;
+  }
+  
+  /* 解決「肥」嘅問題：將高度拉返長啲，變返 9:19.5 嘅修長比例 */
+  .phone { 
+    width: 320px !important; 
+    height: 690px !important; /* 由 640 改做 690 */
+    transform: none !important; 
+    border-radius: 45px !important; 
+    padding: 8px !important; 
+    margin: 0 !important;
+  }
+  
+  .phone::after { 
+    width: 95px !important; 
+    height: 26px !important; 
+    top: 16px !important; 
+    border-radius: 15px !important; 
+  }
+  
+  .screen { 
+    border-radius: 38px !important; 
+  }
+  
+  .lock-time { 
+    font-size: 76px !important; 
+    margin-bottom: 10px !important; 
+  }
+  
+  .ios-widgets { 
+    margin-bottom: 10px !important; 
+  }
+  
+  .lock-hint { 
+    margin-top: 0 !important; 
+  }
+}
+
+/* 👇 解決「向上推唔開」嘅核心代碼，必須加喺最底 */
+.lock-screen {
+  touch-action: pan-y !important; /* 允許垂直拖動 */
+  -webkit-user-select: none; /* 防止長按選字 */
+  user-select: none;
 }
