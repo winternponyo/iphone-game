@@ -64,7 +64,7 @@
         <!-- 底部 Dock -->
         <div class="dock">
           <div class="app" onclick="openApp('电话')">
-            <div class="app-icon"><img src="icon/phone.png" alt="电话" style="width:100%; height:100%; object-fit:cover; border-radius: 15px;"></div>
+            <div class="app-icon"><img src="icon/phone.png" alt="电话" style="width:110%; height:110%; object-fit:cover; border-radius: 15px;"></div>
             <span>电话</span>
           </div>
           <div class="app" onclick="openApp('Safari')">
@@ -84,7 +84,7 @@
         <div class="notif-body">
           <div class="notif-title">备忘录</div>
           <div class="notif-text">
-            她的生日 <img src="icon/emoji/cake.png" alt="蛋糕" style="width: 16px; height: 16px; vertical-align: middle; margin: 0 2px;"> 11月21日 · 35天后
+            她的生日 <img src="icon/emoji/cake.png" alt="蛋糕" style="width: 16px; height: 16px; vertical-align: middle; margin: 0 2px;"> 2月9日 · 35天后
           </div>
         </div>
       </div>
@@ -119,6 +119,35 @@
           <span id="appTitle"></span>
         </div>
         <div class="app-content" id="appContent"></div>
+      </div>
+
+      <!-- 👇 控制中心 (搬返入 screen 入面) -->
+      <div class="control-center" id="controlCenter">
+        <div class="cc-panel">
+          <div class="cc-box cc-grid-2x2">
+            <div style="display:flex; align-items:center; gap:10px;"><div style="width:40px; height:40px; border-radius:50%; background:#007aff; display:flex; align-items:center; justify-content:center; font-size:20px;">✈️</div> 飞行模式</div>
+            <div style="display:flex; align-items:center; gap:10px;"><div style="width:40px; height:40px; border-radius:50%; background:#34c759; display:flex; align-items:center; justify-content:center; font-size:20px;">📶</div> 蜂窝网络</div>
+            <div style="display:flex; align-items:center; gap:10px;"><div style="width:40px; height:40px; border-radius:50%; background:#007aff; display:flex; align-items:center; justify-content:center; font-size:20px;">📡</div> Wi-Fi</div>
+            <div style="display:flex; align-items:center; gap:10px;"><div style="width:40px; height:40px; border-radius:50%; background:#007aff; display:flex; align-items:center; justify-content:center; font-size:20px;">📻</div> 蓝牙</div>
+          </div>
+          <div class="cc-box" style="grid-column: span 2; padding: 16px;">
+            <div style="font-size:13px; color:#888; margin-bottom:5px;">正在播放</div>
+            <div style="font-size:16px; font-weight:600; margin-bottom:10px;">暂无音乐</div>
+            <div style="display:flex; justify-content:space-between; font-size:24px; color:#333; margin-top:20px;">
+              <span>⏮</span><span>▶️</span><span>⏭</span>
+            </div>
+          </div>
+          <div class="cc-box cc-grid-1x2" style="grid-column: span 4; display:flex; gap:15px; padding:15px;">
+            <div style="flex:1; background:rgba(0,0,0,0.05); border-radius:10px; height:120px; display:flex; align-items:flex-end; padding-bottom:10px; justify-content:center; font-size:24px;">☀️</div>
+            <div style="flex:1; background:rgba(0,0,0,0.05); border-radius:10px; height:120px; display:flex; align-items:flex-end; padding-bottom:10px; justify-content:center; font-size:24px;">🔊</div>
+          </div>
+          <div class="cc-box cc-grid-1x4" style="grid-column: span 4; display:flex; justify-content:space-between; padding:15px; font-size:24px;">
+            <div style="width:50px; height:50px; background:rgba(0,0,0,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">🔦</div>
+            <div style="width:50px; height:50px; background:rgba(0,0,0,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">⏱️</div>
+            <div style="width:50px; height:50px; background:rgba(0,0,0,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">🧮</div>
+            <div style="width:50px; height:50px; background:rgba(0,0,0,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">📷</div>
+          </div>
+        </div>
       </div>
 
     </div>
