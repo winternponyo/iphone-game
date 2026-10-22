@@ -50,7 +50,48 @@ const appData = {
           `<div style="aspect-ratio:1;background:#ddd;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:28px">${e}</div>`).join('') + '</div>',
   '天气': '<div style="text-align:center;padding-top:40px"><img src="icon/emoji/sun.png" alt="太阳" style="width:80px; height:80px; object-fit:contain;"><div style="font-size:48px;font-weight:200; margin-top:10px;">18°</div><div style="color:#666">首尔 · 大部晴朗</div><div style="margin-top:20px;color:#999">最高21° 最低12°</div></div>',
   '备忘录': '<div style="font-size:15px;line-height:1.8"><b>她的生日 <img src="icon/emoji/cake.png" style="width:18px; height:18px; vertical-align:middle;"> </b><br>11月21日 · 35天后<br><br>记得提前准备礼物。</div>',
-  '设置': '<div style="font-size:15px;line-height:2.4"><img src="icon/emoji/signal.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> 蜂窝网络<br><img src="icon/emoji/antenna.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> Wi-Fi<br><img src="icon/emoji/bell.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> 通知<br><img src="icon/emoji/lock.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> 隐私与安全</div>',
+  '设置': `
+    <div style="background: #f2f2f7; height: 100%; margin: -20px; padding: 20px 16px; border-radius: 10px;">
+      
+      <!-- 個人資料卡 -->
+      <div style="background: white; border-radius: 10px; padding: 12px; display: flex; align-items: center; gap: 15px; margin-bottom: 25px;">
+        <div style="width: 60px; height: 60px; border-radius: 50%; background: #ccc; display: flex; align-items: center; justify-content: center; font-size: 30px;">👤</div>
+        <div>
+          <div style="font-size: 20px; font-weight: 500; color: #000;">Wonbin</div>
+          <div style="font-size: 13px; color: #888; margin-top: 4px;">Apple ID、iCloud、媒体与购买项目</div>
+        </div>
+      </div>
+
+      <!-- 列表項目 -->
+      <div style="background: white; border-radius: 10px; padding: 0 16px; margin-bottom: 25px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #eee;">
+          <div style="display: flex; align-items: center; gap: 12px; font-size: 16px; color: #000;"><img src="icon/emoji/antenna.png" style="width: 28px; height: 28px; border-radius: 6px; background: #007aff; padding: 4px;"> 飞行模式</div>
+          <div style="color: #ccc;">›</div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #eee;">
+          <div style="display: flex; align-items: center; gap: 12px; font-size: 16px; color: #000;"><img src="icon/emoji/signal.png" style="width: 28px; height: 28px; border-radius: 6px; background: #34c759; padding: 4px;"> 蜂窝网络</div>
+          <div style="color: #ccc;">›</div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 0;">
+          <div style="display: flex; align-items: center; gap: 12px; font-size: 16px; color: #000;"><img src="icon/emoji/global.png" style="width: 28px; height: 28px; border-radius: 6px; background: #007aff; padding: 4px;"> Wi-Fi</div>
+          <div style="color: #ccc;">›</div>
+        </div>
+      </div>
+
+      <!-- 第二個列表 -->
+      <div style="background: white; border-radius: 10px; padding: 0 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #eee;">
+          <div style="display: flex; align-items: center; gap: 12px; font-size: 16px; color: #000;"><img src="icon/emoji/bell.png" style="width: 28px; height: 28px; border-radius: 6px; background: #ff3b30; padding: 4px;"> 通知</div>
+          <div style="color: #ccc;">›</div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 0;">
+          <div style="display: flex; align-items: center; gap: 12px; font-size: 16px; color: #000;"><img src="icon/emoji/lock.png" style="width: 28px; height: 28px; border-radius: 6px; background: #8e8e93; padding: 4px;"> 隐私与安全</div>
+          <div style="color: #ccc;">›</div>
+        </div>
+      </div>
+      
+    </div>
+  `,
   '电话': '<div style="font-size:15px;line-height:2.2"><img src="icon/emoji/calling.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> 妈妈 · 昨天<br><img src="icon/emoji/calling.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> 小李 · 星期二<br><img src="icon/emoji/calling.png" style="width:18px; height:18px; vertical-align:middle; margin-right:8px;"> 快递 · 10月14日</div>',
   'Safari': '<div style="text-align:center;padding-top:40px;color:#666"><img src="icon/emoji/global.png" style="width:60px; height:60px; object-fit:contain; margin-bottom:10px;"><br>输入网址开始浏览</div>',
   '音乐': '<div style="text-align:center;padding-top:40px"><img src="icon/emoji/musicnote.png" style="width:80px; height:80px; object-fit:contain; margin-bottom:10px;"><br><div style="margin-top:12px; color:#666;">暂无播放</div></div>'
