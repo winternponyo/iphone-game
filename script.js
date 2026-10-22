@@ -18,7 +18,7 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 1000);
 
-// 上滑解鎖 (加入 touch-action 確保唔會衝突)
+// 上滑解鎖 (強制修復版)
 const lockScreen = document.getElementById('lockScreen');
 let startY = 0;
 let isDragging = false;
@@ -26,12 +26,15 @@ let isDragging = false;
 lockScreen.addEventListener('touchstart', e => {
   startY = e.touches[0].clientY;
   isDragging = true;
+  // 確保 Safari 唔會搶咗個觸控
+  lockScreen.style.transition = 'none'; 
 }, { passive: false });
 
 lockScreen.addEventListener('touchmove', e => {
   if (!isDragging) return;
   const dy = e.touches[0].clientY - startY;
   if (dy < 0) {
+    // 跟住手指移動
     lockScreen.style.transform = `translateY(${dy}px)`;
   }
 }, { passive: false });
@@ -39,18 +42,27 @@ lockScreen.addEventListener('touchmove', e => {
 lockScreen.addEventListener('touchend', e => {
   if (!isDragging) return;
   const dy = e.changedTouches[0].clientY - startY;
-  if (dy < -100) {
+  
+  // 只要向上掃超過 30px 就當解鎖 (之前係 100px 太難掃)
+  if (dy < -30) {
     showPasscode(); 
   } else {
-    lockScreen.style.transform = '';
+    // 掃得唔夠高，彈返去原位
+    lockScreen.style.transition = 'transform 0.3s ease';
+    lockScreen.style.transform = 'translateY(0)';
   }
   isDragging = false;
 });
 
-// 鼠標支持
-lockScreen.addEventListener('mousedown', e => { startY = e.clientY; isDragging = true; });
+// 滑鼠拖拽 (電腦測試用)
+lockScreen.addEventListener('mousedown', e => { startY = e.clientY; isDragging = true; lockScreen.style.transition = 'none'; });
 lockScreen.addEventListener('mouseup', e => {
-  if (isDragging && e.clientY - startY < -100) showPasscode(); 
+  if (isDragging && e.clientY - startY < -30) {
+    showPasscode();
+  } else {
+    lockScreen.style.transition = 'transform 0.3s ease';
+    lockScreen.style.transform = 'translateY(0)';
+  }
   isDragging = false;
 });
 
