@@ -373,3 +373,90 @@ function sendMessage() {
 function handleEnter(e) {
   if (e.key === 'Enter') sendMessage();
 }
+
+/* ====== Instagram 視像通話 ====== */
+.ig-call-screen {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 80px 20px 60px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.ig-call-screen.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.ig-call-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(0,0,0,1) 70%);
+  z-index: -1;
+}
+.ig-call-avatar {
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: #333;
+  display: flex; justify-content: center; align-items: center;
+  font-size: 60px;
+  margin: 0 auto 20px;
+  animation: breathe 2s infinite ease-in-out;
+}
+@keyframes breathe {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.1); }
+  50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(255,255,255,0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+}
+.ig-call-name { color: #fff; font-size: 24px; font-weight: 500; margin-bottom: 5px; }
+.ig-call-status { color: #aaa; font-size: 14px; }
+.ig-call-bottom { display: flex; justify-content: center; }
+.ig-btn.red {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  background: #ff3b30;
+  display: flex; justify-content: center; align-items: center;
+  font-size: 30px; color: white; transform: rotate(135deg);
+  cursor: pointer;
+}
+
+/* ====== Apple Music 播放器 ====== */
+.am-player {
+  position: absolute; inset: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  z-index: 50;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 60px 20px 40px;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+.am-player.show { transform: translateY(0); }
+.am-header {
+  width: 100%; display: flex; justify-content: space-between; align-items: center;
+  color: #000; font-size: 12px; font-weight: 600; margin-bottom: 40px;
+}
+.am-header button { background: none; border: none; font-size: 24px; cursor: pointer; }
+.am-cover {
+  width: 280px; height: 280px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+  display: flex; justify-content: center; align-items: center;
+  font-size: 80px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  margin-bottom: 40px;
+}
+.am-info { text-align: center; margin-bottom: 30px; }
+.am-title { font-size: 22px; font-weight: 600; color: #000; margin-bottom: 5px; }
+.am-artist { font-size: 18px; color: #888; }
+.am-progress-container { width: 100%; margin-bottom: 30px; padding: 0 10px; }
+.am-progress-bar { width: 100%; height: 4px; background: #ddd; border-radius: 2px; position: relative; }
+.am-progress { height: 100%; background: #ff3b30; border-radius: 2px; width: 0%; transition: width 0.1s linear; }
+.am-time { display: flex; justify-content: space-between; font-size: 12px; color: #888; margin-top: 8px; }
+.am-controls { display: flex; gap: 40px; align-items: center; }
+.am-btn { font-size: 32px; cursor: pointer; color: #000; }
+.am-btn.play { font-size: 50px; }
