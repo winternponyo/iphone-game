@@ -141,7 +141,7 @@ const appData = {
       <div style="background: white; border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
         <div style="width: 60px; height: 60px; border-radius: 50%; background: #f7b2c1; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; font-weight: 500;">KL</div>
         <div style="flex: 1;">
-          <div style="font-size: 20px; color: #000;">Ka Wai Lam</div>
+          <div style="font-size: 20px; color: #000;">ymp</div>
           <div style="font-size: 13px; color: #888; margin-top: 2px;">Apple ID、iCloud、媒体与购买项目</div>
         </div>
         <div style="color: #c7c7cc; font-size: 20px;">›</div>
