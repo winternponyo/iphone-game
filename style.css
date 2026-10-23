@@ -31,7 +31,7 @@ body {
   background: linear-gradient(160deg, #1c1c3a 0%, #3a2b5c 40%, #6b4c7a 70%, #b76e79 100%);
 }
 
-/* 👇 呢度就係個「瀏海」啦 */
+/* 👇 瀏海 */
 .phone::after {
   content: '';
   position: absolute;
@@ -49,11 +49,17 @@ body {
   position: absolute; inset: 0;
   display: flex; flex-direction: column; align-items: center;
   color: #fff; z-index: 10;
-  background: linear-gradient(160deg, rgba(28,28,58,0.9) 0%, rgba(58,43,92,0.9) 40%, rgba(107,76,122,0.9) 70%, rgba(183,110,121,0.9) 100%);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  
+  /* 👇 將背景加深到 0.98，接近實色，完全遮住後面 */
+  background: linear-gradient(160deg, rgba(28,28,58,0.98) 0%, rgba(58,43,92,0.98) 40%, rgba(107,76,122,0.98) 70%, rgba(183,110,121,0.98) 100%);
+  
+  /* 保留毛玻璃效果 */
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  
   padding-top: 70px;
   transition: transform 0.4s ease;
 }
+
 .lock-screen.unlocked { transform: translateY(-100%); }
 .lock-date { font-size: 18px; font-weight: 500; opacity: 0.9; margin-bottom: 5px; }
 .lock-time { font-size: 92px; font-weight: 200; letter-spacing: -3px; line-height: 1; margin-bottom: 20px; }
@@ -86,7 +92,7 @@ body {
 .app span { opacity: 0.9; }
 .dock { display: flex; justify-content: space-around; background: rgba(255,255,255,0.2); backdrop-filter: blur(20px); border-radius: 28px; padding: 12px 0; }
 
-/* App 彈層 & 狀態欄 & 密碼 */
+/* App 彈層 & 狀態欄 */
 .app-view { position: absolute; inset: 0; background: #f2f2f7; z-index: 20; display: flex; flex-direction: column; opacity: 0; transform: scale(0.92); pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease; }
 .app-view.show { opacity: 1; transform: scale(1); pointer-events: auto; }
 .app-header { display: flex; align-items: center; gap: 12px; padding: 60px 16px 12px; background: #fff; border-bottom: 1px solid #ddd; }
@@ -94,17 +100,96 @@ body {
 .app-content { flex: 1; padding: 0; color: #333; overflow-y: auto; }
 .status-bar { position: absolute; top: 0; left: 0; right: 0; height: 54px; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 34px 6px; color: #fff; font-size: 15px; font-weight: 600; z-index: 30; pointer-events: none; }
 
-.passcode-screen { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 25; display: none; flex-direction: column; align-items: center; justify-content: center; color: #fff; }
-.passcode-screen.show { display: flex; }
-.passcode-title { font-size: 16px; margin-bottom: 20px; font-weight: 500; }
-.passcode-dots { display: flex; gap: 20px; margin-bottom: 50px; }
-.dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid #fff; background: transparent; transition: background 0.2s; }
-.dot.filled { background: #fff; }
-.keypad { display: grid; grid-template-columns: repeat(3, 75px); gap: 15px 25px; }
-.key { width: 75px; height: 75px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 300; cursor: pointer; user-select: none; }
-.key:active { background: rgba(255, 255, 255, 0.5); }
-.key.empty { background: transparent; cursor: default; }
+/* ====== 完美還原 iOS 密碼鍵盤 ====== */
+.passcode-screen { 
+  position: absolute; inset: 0; 
+  
+  /* 👇 95% 純黑 + 50px 極重模糊，保證一滴光都透唔到 */
+  background: rgba(0, 0, 0, 0.95); 
+  backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px); 
+  
+  z-index: 25; 
+  display: flex; 
+  flex-direction: column; align-items: center; justify-content: center; 
+  color: #fff; 
+  padding-bottom: 80px; 
+  
+  opacity: 0;
+  pointer-events: none; 
+  transition: opacity 0.3s ease; 
+}
 
+/* 當有 .show 嗰陣，先至變做 1 (顯示) */
+.passcode-screen.show { 
+  opacity: 1; 
+  pointer-events: auto; 
+}
+
+.passcode-title { font-size: 16px; margin-bottom: 20px; font-weight: 500; letter-spacing: 0.5px; margin-top: 20px; }
+
+.passcode-dots { display: flex; gap: 20px; margin-bottom: 50px; }
+.dot { 
+  width: 13px; height: 13px; border-radius: 50%; 
+  border: 1.5px solid #fff; background: transparent; 
+  transition: background 0.2s; 
+}
+.dot.filled { background: #fff; }
+
+/* 數字鍵盤 */
+.keypad { display: grid; grid-template-columns: repeat(3, 75px); gap: 15px 25px; }
+.key { 
+  width: 75px; height: 75px; border-radius: 50%; 
+  background: rgba(255, 255, 255, 0.15); 
+  backdrop-filter: blur(10px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; 
+  font-size: 32px; font-weight: 300; cursor: pointer; user-select: none; 
+  transition: background 0.1s;
+}
+.key span { font-size: 10px; font-weight: 600; letter-spacing: 2px; margin-top: 2px; }
+.key:active { background: rgba(255, 255, 255, 0.4); }
+.key.blank { 
+  background: transparent !important; 
+  pointer-events: none; 
+  visibility: hidden; 
+}
+
+/* 底部按鈕 (緊急情況 / 取消) */
+.passcode-bottom {
+  position: absolute; bottom: 40px; left: 0; right: 0;
+  display: flex; justify-content: space-between; padding: 0 40px;
+}
+.passcode-btn {
+  font-size: 16px; color: #fff; font-weight: 400; cursor: pointer;
+}
+
+/* 數字鍵盤 */
+.keypad { display: grid; grid-template-columns: repeat(3, 75px); gap: 15px 25px; }
+.key { 
+  width: 75px; height: 75px; border-radius: 50%; 
+  background: rgba(255, 255, 255, 0.15); 
+  backdrop-filter: blur(10px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; 
+  font-size: 32px; font-weight: 300; cursor: pointer; user-select: none; 
+  transition: background 0.1s;
+}
+.key span { font-size: 10px; font-weight: 600; letter-spacing: 2px; margin-top: 2px; }
+.key:active { background: rgba(255, 255, 255, 0.4); }
+.key.blank { 
+  background: transparent !important; 
+  pointer-events: none; 
+  visibility: hidden; 
+}
+
+/* 底部按鈕 (緊急情況 / 取消) */
+.passcode-bottom {
+  position: absolute; bottom: 40px; left: 0; right: 0;
+  display: flex; justify-content: space-between; padding: 0 40px;
+}
+.passcode-btn {
+  font-size: 16px; color: #fff; font-weight: 400; cursor: pointer;
+}
+
+/* 控制中心 */
 .control-center { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 45; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; padding-top: 60px; transform: translateY(-100%); transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2); opacity: 0; pointer-events: none; }
 .control-center.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
 .cc-panel { width: 350px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
@@ -133,7 +218,7 @@ body {
 .wechat-input { flex: 1; padding: 10px; border-radius: 6px; border: none; outline: none; font-size: 15px; }
 .wechat-send-btn { background: #07c160; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 14px; cursor: pointer; }
 
-/* ====== 手機真機自適應 (有黑框，保證完美 Fit 不切底) ====== */
+/* ====== 終極自適應比例 (完美 Fit 任何瀏覽器) ====== */
 @media screen and (max-width: 500px) {
   html, body { 
     height: 100vh; 
@@ -142,16 +227,17 @@ body {
     margin: 0; 
     padding: 0; 
     overflow: hidden; 
-    background: #121212; /* 深灰背景 */
+    background: #121212; 
     display: flex;
     align-items: center;
     justify-content: center;
   }
   
   .phone { 
-    /* 用 95vw 同 85dvh (高度收斂少少) 確保 Safari 網址欄絕對遮唔到 */
-    width: 95vw !important; 
-    height: 85dvh !important; 
+    width: min(100vw, calc((100dvh - 36px) * 0.4613), 430px) !important; 
+    aspect-ratio: 393 / 852 !important; 
+    height: auto !important;
+    
     border-radius: 50px !important; 
     padding: 10px !important; 
     margin: 0 !important;
@@ -170,7 +256,6 @@ body {
     border-radius: 40px !important; 
   }
 
-  /* 排版微調，避開瀏海 */
   .lock-date { margin-top: 30px !important; }
   .status-bar { padding-top: 0 !important; }
   .lock-time { font-size: 76px !important; margin-bottom: 10px !important; }
@@ -205,3 +290,10 @@ body {
 .am-controls { display: flex; gap: 40px; align-items: center; }
 .am-btn { font-size: 32px; cursor: pointer; color: #000; }
 .am-btn.play { font-size: 50px; }
+
+/* 抄別人嘅終極變暗魔法 */
+.home-screen.dim {
+  filter: blur(20px) brightness(0.2) !important; /* 20px 模糊 + 20% 極度變暗 */
+  transform: scale(1.05) !important; /* 微微放大，遮住邊緣 */
+  pointer-events: none; /* 變暗時撳唔到後面啲 App */
+}

@@ -21,20 +21,34 @@
         <div class="lock-date" id="lockDate">10月17日 星期六</div>
         <div class="lock-time">5:51</div>
         
-        <!-- 鎖屏 Widgets (心心排版) -->
-        <div class="ios-widgets">
-          <div class="widget-left">
-            <div class="w-temp"><img src="icon/emoji/sun.png" style="width:16px; vertical-align:middle; filter:invert(1);"> 18°</div>
-            <div class="w-desc">多云</div>
-            <div class="w-highlow">最高21° 最低12°</div>
+        <!-- 鎖屏 Widgets (情侶紀念日排版) -->
+        <div class="ios-widgets" style="display: flex; flex-direction: column; align-items: center; width: 100%; padding: 0 20px; margin-top: 10px;">
+          
+          <!-- 第一行：日期 ❤️ 天數 -->
+          <div style="display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 15px; font-weight: 500; margin-bottom: 20px; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">
+            <span id="widgetDate">10月22日</span>
+            <span style="color: #ff3b30; font-size: 14px;">❤️</span>
+            <span id="togetherDays">991天</span>
           </div>
-          <div class="widget-center">
-            <div class="w-cal-days"><span>2</span><span></span><span>3</span></div>
-            <div class="w-cal-nums"><span>09</span><span style="color:#ff3b30; font-size:16px;">❤️</span><span>19</span></div>
+
+          <!-- 第二行：距離 + S 🤍 R -->
+          <div style="width: 100%; display: flex; flex-direction: column; align-items: center; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">
+            <div style="font-size: 12px; font-weight: 500; margin-bottom: 12px; opacity: 0.9;">我们的距离: 1900公里</div>
+            
+            <div style="display: flex; justify-content: center; align-items: center; width: 100%; gap: 15px;">
+              <!-- 左邊圓圈 -->
+              <div style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.5); display: flex; justify-content: center; align-items: center; font-size: 11px; font-weight: 600;">YU</div>
+              
+              <!-- 中間虛線同心心 -->
+              <div style="flex: 1; height: 1px; border-bottom: 1px dashed rgba(255,255,255,0.6); position: relative; display: flex; justify-content: center;">
+                <span style="position: absolute; top: -9px; background: transparent; font-size: 14px;">🤍</span>
+              </div>
+              
+              <!-- 右邊圓圈 -->
+              <div style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.5); display: flex; justify-content: center; align-items: center; font-size: 10px; font-weight: 600;">YUAN</div>
+            </div>
           </div>
-          <div class="widget-right">
-            <div class="battery-ring"><div class="battery-inner"></div></div>
-          </div>
+
         </div>
 
         <!-- 底部按鈕 -->
@@ -52,7 +66,7 @@
       </div>
 
       <!-- 主屏幕 -->
-      <div class="home-screen" id="homeScreen">
+      <div class="home-screen" id="homeScreen" style="transition: filter 0.3s ease, transform 0.3s ease;">
         <div class="widget">
           <div class="widget-city">首尔</div>
           <div class="widget-temp">18°</div>
@@ -115,18 +129,24 @@
           <div class="dot"></div><div class="dot"></div>
         </div>
         <div class="keypad">
-          <div class="key" onclick="enterPass('1')">1</div>
-          <div class="key" onclick="enterPass('2')">2</div>
-          <div class="key" onclick="enterPass('3')">3</div>
-          <div class="key" onclick="enterPass('4')">4</div>
-          <div class="key" onclick="enterPass('5')">5</div>
-          <div class="key" onclick="enterPass('6')">6</div>
-          <div class="key" onclick="enterPass('7')">7</div>
-          <div class="key" onclick="enterPass('8')">8</div>
-          <div class="key" onclick="enterPass('9')">9</div>
-          <div class="key empty"></div>
-          <div class="key" onclick="enterPass('0')">0</div>
-          <div class="key" onclick="deletePass()">⌫</div>
+          <div class="key" onclick="enterPass('1')">1<span> </span></div>
+          <div class="key" onclick="enterPass('2')">2<span>ABC</span></div>
+          <div class="key" onclick="enterPass('3')">3<span>DEF</span></div>
+          <div class="key" onclick="enterPass('4')">4<span>GHI</span></div>
+          <div class="key" onclick="enterPass('5')">5<span>JKL</span></div>
+          <div class="key" onclick="enterPass('6')">6<span>MNO</span></div>
+          <div class="key" onclick="enterPass('7')">7<span>PQRS</span></div>
+          <div class="key" onclick="enterPass('8')">8<span>TUV</span></div>
+          <div class="key" onclick="enterPass('9')">9<span>WXYZ</span></div>
+          <div class="key blank"></div>
+          <div class="key" onclick="enterPass('0')">0<span> </span></div>
+          <div class="key blank"></div>
+        </div>
+        
+        <!-- 底部按鈕 -->
+        <div class="passcode-bottom">
+          <div class="passcode-btn">緊急情況</div>
+          <div class="passcode-btn" onclick="cancelPasscode()">取消</div>
         </div>
       </div>
 

@@ -14,9 +14,34 @@ function updateTime() {
     const days = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
     dateEl.textContent = `${month}月${date}日 ${days[now.getDay()]}`;
   }
+
+  // 👇 新增：情侶紀念日計算邏輯
+  const startDate = new Date('2022-10-31'); // 👈 你可以喺呢度改你哋嘅開始拍拖日期
+  const diff = now - startDate;
+  
+  const daysTogether = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hoursTogether = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minsTogether = Math.floor((diff / (1000 * 60)) % 60);
+  const secsTogether = Math.floor((diff / 1000) % 60);
+  
+  const dayStr = String(daysTogether);
+  const hourStr = String(hoursTogether).padStart(2, '0');
+  const minStr = String(minsTogether).padStart(2, '0');
+  const secStr = String(secsTogether).padStart(2, '0');
+  
+  const wDate = document.getElementById('widgetDate');
+  if(wDate) {
+    const daysName = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    wDate.textContent = `${daysName[now.getDay()]} ${now.getDate()}`;
+  }
+  
+  const wDays = document.getElementById('togetherDays');
+  if(wDays) wDays.textContent = `與小昱在一起的第${dayStr}天`;
+  
+  const wTimer = document.getElementById('togetherTimer');
+  if(wTimer) wTimer.textContent = `${dayStr}`;
 }
-updateTime();
-setInterval(updateTime, 1000);
+
 
 // ====== 密碼解鎖邏輯 ======
 let currentPass = '';
@@ -25,8 +50,14 @@ const correctPass = '0528';
 function showPasscode() {
   const passScreen = document.getElementById('passcodeScreen');
   const lockScreen = document.getElementById('lockScreen');
+  const homeScreen = document.getElementById('homeScreen'); // 👈 攞主屏幕
+  
   if(lockScreen) lockScreen.classList.add('unlocked');
   if(passScreen) passScreen.classList.add('show');
+  
+  // 👇 抄別人：將主屏幕變暗變模糊！
+  if(homeScreen) homeScreen.classList.add('dim'); 
+  
   resetDots();
 }
 
@@ -378,4 +409,32 @@ function sendMessage() {
 
 function handleEnter(e) {
   if (e.key === 'Enter') sendMessage();
+}
+
+function resetPasscode() {
+  resetDots(); // 清空點點
+}
+
+// 取消解鎖 (完美無穿崩版)
+function cancelPasscode() {
+  if (currentPass.length > 0) {
+    deletePass();
+  } else {
+    const passScreen = document.getElementById('passcodeScreen');
+    const lockScreen = document.getElementById('lockScreen');
+    const homeScreen = document.getElementById('homeScreen');
+    
+    // 1. 鍵盤開始淡出
+    passScreen.classList.remove('show');
+    
+    // 2. 鎖屏滑返落嚟
+    lockScreen.classList.remove('unlocked');
+    
+    // 👇 3. 呢度係關鍵：等鍵盤淡出完 (300ms) 之後，先至將主屏幕變返光！
+    setTimeout(() => {
+      if(homeScreen) homeScreen.classList.remove('dim');
+    }, 300); 
+    
+    resetDots();
+  }
 }
