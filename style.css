@@ -85,7 +85,12 @@ body {
 
 /* 主屏幕 */
 .home-screen { position: absolute; inset: 0; padding: 60px 20px 30px; display: flex; flex-direction: column; justify-content: space-between; }
-.app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px 16px; }
+.app-grid { 
+  display: grid; 
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 24px 16px; /* 上下 24px，左右 16px */
+  align-content: start; /* 👈 加呢句，確保所有格仔由頂開始排，唔會中間撐開 */
+}
 .app { display: flex; flex-direction: column; align-items: center; gap: 6px; color: #fff; font-size: 11px; cursor: pointer; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
 .app-icon { width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; background: linear-gradient(145deg, #ffffff33, #ffffff11); box-shadow: inset 0 1px 1px rgba(255,255,255,0.3); overflow: hidden; }
 .app-icon img { width: 100%; height: 100%; object-fit: cover; }
