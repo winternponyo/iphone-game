@@ -1,45 +1,47 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
 body {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* 抄佢：強制填滿畫面，禁止滑動 */
+  background: #1a1a1a;
   height: 100vh;
   width: 100vw;
   margin: 0;
-  background: #000; 
-  overflow: hidden; 
-  overscroll-behavior: none;
+  overflow: hidden;
 }
 
 .phone {
   position: relative;
-  /* 抄佢：唔再寫死 390px，直接填滿 Safari */
-  width: 100%;
-  height: 100%;
+  width: 390px;
+  height: 844px;
   background: #000;
-  /* 抄佢：取消圓角同黑邊 */
-  border-radius: 0; 
-  padding: 0; 
-  box-shadow: none;
+  border-radius: 55px;
+  padding: 10px;
+  box-shadow: 0 0 0 2px #3a3a3a, 0 30px 60px rgba(0,0,0,0.7);
 }
 
-/* 隱藏模擬劉海 */
-.phone::after {
-  display: none; 
-}
-
-/* 螢幕填滿 */
+/* 螢幕範圍 */
 .screen {
   position: relative;
   width: 100%; 
   height: 100%;
-  border-radius: 0; 
+  border-radius: 45px;
   overflow: hidden;
   background: linear-gradient(160deg, #1c1c3a 0%, #3a2b5c 40%, #6b4c7a 70%, #b76e79 100%);
+}
+
+/* 👇 呢度就係個「瀏海」啦 */
+.phone::after {
+  content: '';
+  position: absolute;
+  top: 22px; left: 50%;
+  transform: translateX(-50%);
+  width: 120px; height: 34px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 50;
+  pointer-events: none;
 }
 
 /* 鎖屏 */
@@ -131,31 +133,49 @@ body {
 .wechat-input { flex: 1; padding: 10px; border-radius: 6px; border: none; outline: none; font-size: 15px; }
 .wechat-send-btn { background: #07c160; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 14px; cursor: pointer; }
 
-/* ====== 終極全螢幕自適應 (強制填滿手機 Safari) ====== */
+/* ====== 手機真機自適應 (有黑框，保證完美 Fit 不切底) ====== */
 @media screen and (max-width: 500px) {
   html, body { 
     height: 100vh; 
-    height: 100dvh; /* 完美扣減 Safari 工具列 */
+    height: 100dvh; 
     width: 100vw; 
-    margin: 0; padding: 0; 
+    margin: 0; 
+    padding: 0; 
     overflow: hidden; 
-    background: #000;
+    background: #121212; /* 深灰背景 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .phone { 
-    width: 100% !important; 
-    height: 100% !important; 
-    border-radius: 0 !important; /* 取消圓角 */
-    padding: 0 !important; /* 取消黑邊 */
-    box-shadow: none !important;
+    /* 用 95vw 同 85dvh (高度收斂少少) 確保 Safari 網址欄絕對遮唔到 */
+    width: 95vw !important; 
+    height: 85dvh !important; 
+    border-radius: 50px !important; 
+    padding: 10px !important; 
+    margin: 0 !important;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8) !important; 
   }
   
-  .phone::after { display: none !important; } /* 隱藏模擬劉海 */
-  .screen { border-radius: 0 !important; }
+  .phone::after { 
+    display: block !important; 
+    width: 100px !important;
+    height: 28px !important;
+    top: 18px !important;
+    border-radius: 15px !important;
+  }
+  
+  .screen { 
+    border-radius: 40px !important; 
+  }
 
-  /* 因為全螢幕，排版微調避開真機頂部 */
-  .lock-date { margin-top: 40px; }
-  .status-bar { padding-top: 10px; }
+  /* 排版微調，避開瀏海 */
+  .lock-date { margin-top: 30px !important; }
+  .status-bar { padding-top: 0 !important; }
+  .lock-time { font-size: 76px !important; margin-bottom: 10px !important; }
+  .ios-widgets { margin-bottom: 10px !important; }
+  .lock-bottom { bottom: 30px !important; }
 }
 
 /* ====== Instagram 視像通話 ====== */
