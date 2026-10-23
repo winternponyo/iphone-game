@@ -218,8 +218,7 @@ const appData = {
     </div>
   `,
   'Safari': '<div style="text-align:center;padding-top:40px;color:#666"><img src="icon/emoji/global.png" style="width:60px; height:60px; object-fit:contain; margin-bottom:10px;"><br>输入网址开始浏览</div>',
-  '音乐': '<div style="text-align:center;padding-top:40px"><img src="icon/emoji/musicnote.png" style="width:80px; height:80px; object-fit:contain; margin-bottom:10px;"><br><div style="margin-top:12px; color:#666;">暂无播放</div></div>'
-};
+  '音乐': '<div style="text-align:center;padding-top:100px;color:#888;"><div style="font-size:60px; margin-bottom:20px;">🎵</div><div style="font-size:16px; color:#000; font-weight:500; margin-bottom:10px;">告白气球</div><div style="font-size:14px; margin-bottom:20px;">周杰伦</div><button onclick="openMusic()" style="background:#ff3b30; color:white; border:none; padding:10px 20px; border-radius:20px; font-size:14px; cursor:pointer;">打开播放器</button></div>',};
 
 function openApp(name) {
   appTitle.textContent = name;
@@ -229,6 +228,68 @@ function openApp(name) {
 }
 function closeApp() {
   appView.classList.remove('show');
+}
+
+// ====== Instagram 視像通話邏輯 ======
+// 喺 openApp 入面加個 if 判斷，如果撳 IG 就彈通話
+const originalOpenApp = openApp;
+openApp = function(name) {
+  if (name === 'instagram') {
+    document.getElementById('igCallScreen').classList.add('show');
+  } else {
+    originalOpenApp(name);
+  }
+};
+
+function endIgCall() {
+  document.getElementById('igCallScreen').classList.remove('show');
+}
+
+// ====== Apple Music 邏輯 ======
+let isPlaying = false;
+let progressInterval;
+
+function openMusic() {
+  appView.classList.remove('show'); // 關閉 App 彈層
+  document.getElementById('amPlayer').classList.add('show');
+}
+
+function closeMusic() {
+  document.getElementById('amPlayer').classList.remove('show');
+  stopPlay();
+}
+
+function togglePlay() {
+  const btn = document.getElementById('amPlayBtn');
+  if (isPlaying) {
+    stopPlay();
+    btn.textContent = '▶️';
+  } else {
+    playMusic();
+    btn.textContent = '⏸';
+  }
+}
+
+function playMusic() {
+  isPlaying = true;
+  const progress = document.getElementById('amProgress');
+  let width = parseFloat(progress.style.width) || 0;
+  
+  progressInterval = setInterval(() => {
+    width += 0.5; // 速度
+    if (width >= 100) {
+      width = 0;
+      isPlaying = false;
+      document.getElementById('amPlayBtn').textContent = '▶️';
+      clearInterval(progressInterval);
+    }
+    progress.style.width = width + '%';
+  }, 1000);
+}
+
+function stopPlay() {
+  isPlaying = false;
+  clearInterval(progressInterval);
 }
 
 // ====== WeChat 邏輯 ======
@@ -373,90 +434,3 @@ function sendMessage() {
 function handleEnter(e) {
   if (e.key === 'Enter') sendMessage();
 }
-
-/* ====== Instagram 視像通話 ====== */
-.ig-call-screen {
-  position: absolute;
-  inset: 0;
-  background: #000;
-  z-index: 60;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 80px 20px 60px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-.ig-call-screen.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-.ig-call-bg {
-  position: absolute; inset: 0;
-  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(0,0,0,1) 70%);
-  z-index: -1;
-}
-.ig-call-avatar {
-  width: 120px; height: 120px;
-  border-radius: 50%;
-  background: #333;
-  display: flex; justify-content: center; align-items: center;
-  font-size: 60px;
-  margin: 0 auto 20px;
-  animation: breathe 2s infinite ease-in-out;
-}
-@keyframes breathe {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.1); }
-  50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(255,255,255,0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); }
-}
-.ig-call-name { color: #fff; font-size: 24px; font-weight: 500; margin-bottom: 5px; }
-.ig-call-status { color: #aaa; font-size: 14px; }
-.ig-call-bottom { display: flex; justify-content: center; }
-.ig-btn.red {
-  width: 70px; height: 70px;
-  border-radius: 50%;
-  background: #ff3b30;
-  display: flex; justify-content: center; align-items: center;
-  font-size: 30px; color: white; transform: rotate(135deg);
-  cursor: pointer;
-}
-
-/* ====== Apple Music 播放器 ====== */
-.am-player {
-  position: absolute; inset: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  z-index: 50;
-  display: flex; flex-direction: column; align-items: center;
-  padding: 60px 20px 40px;
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-}
-.am-player.show { transform: translateY(0); }
-.am-header {
-  width: 100%; display: flex; justify-content: space-between; align-items: center;
-  color: #000; font-size: 12px; font-weight: 600; margin-bottom: 40px;
-}
-.am-header button { background: none; border: none; font-size: 24px; cursor: pointer; }
-.am-cover {
-  width: 280px; height: 280px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
-  display: flex; justify-content: center; align-items: center;
-  font-size: 80px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  margin-bottom: 40px;
-}
-.am-info { text-align: center; margin-bottom: 30px; }
-.am-title { font-size: 22px; font-weight: 600; color: #000; margin-bottom: 5px; }
-.am-artist { font-size: 18px; color: #888; }
-.am-progress-container { width: 100%; margin-bottom: 30px; padding: 0 10px; }
-.am-progress-bar { width: 100%; height: 4px; background: #ddd; border-radius: 2px; position: relative; }
-.am-progress { height: 100%; background: #ff3b30; border-radius: 2px; width: 0%; transition: width 0.1s linear; }
-.am-time { display: flex; justify-content: space-between; font-size: 12px; color: #888; margin-top: 8px; }
-.am-controls { display: flex; gap: 40px; align-items: center; }
-.am-btn { font-size: 32px; cursor: pointer; color: #000; }
-.am-btn.play { font-size: 50px; }
