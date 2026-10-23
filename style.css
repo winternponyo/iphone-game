@@ -124,23 +124,26 @@ body {
 .wechat-input { flex: 1; padding: 10px; border-radius: 6px; border: none; outline: none; font-size: 15px; }
 .wechat-send-btn { background: #07c160; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 14px; cursor: pointer; }
 
-/* ====== 手機全螢幕模式 (無黑框，完美填滿) ====== */
+/* ====== 終極自適應 Safari 尺寸 (用 dvh 防切底) ====== */
 @media screen and (max-width: 500px) {
-  body { 
-    padding: 0; 
+  html, body { 
     margin: 0; 
+    padding: 0; 
     overflow: hidden; 
-    background: #000; /* 背景全黑 */
+    background: #000; 
+    height: 100vh; /* 舊版 Safari 備用 */
+    height: 100dvh; /* 👈 呢個係關鍵，佢會自動扣減 Safari 工具列 */
     width: 100vw;
-    height: 100vh;
   }
   
   .phone { 
     width: 100% !important; 
     height: 100% !important; 
-    border-radius: 0 !important; /* 取消圓角 */
-    padding: 0 !important; /* 取消黑邊 */
+    border-radius: 0 !important; /* 取消圓角，全螢幕 */
+    padding: 0 !important; 
+    margin: 0 !important;
     box-shadow: none !important; 
+    transform: none !important;
   }
   
   .phone::after { 
@@ -151,8 +154,8 @@ body {
     border-radius: 0 !important; 
   }
 
-  /* 針對真機調整少少排版，令啲字冇咁逼 */
-  .lock-date { margin-top: 40px; }
+  /* 因為全螢幕，排版微調返 */
+  .lock-date { margin-top: 50px; }
   .status-bar { padding-top: 10px; }
 }
 
