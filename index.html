@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>我的手机</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -19,7 +19,6 @@
       <!-- 鎖屏 -->
       <div class="lock-screen" id="lockScreen">
         <div class="lock-date" id="lockDate">10月17日 星期六</div>
-        
         <div class="lock-time">5:51</div>
         
         <!-- 鎖屏 Widgets (心心排版) -->
@@ -38,12 +37,11 @@
           </div>
         </div>
 
-        <!-- 底部手電筒同相機 -->
+        <!-- 底部按鈕 -->
         <div class="lock-bottom">
           <div class="lock-circle">
             <img src="icon/lockflashlight.png" style="width: 26px; height: 26px; filter: invert(1);">
           </div>
-          <!-- 👇 將提示改做點擊解鎖 -->
           <div class="swipe-hint" onclick="showPasscode()" style="cursor: pointer; padding: 8px 16px; background: rgba(255,255,255,0.15); border-radius: 20px;">
             點擊解鎖
           </div>
@@ -83,6 +81,13 @@
           <div class="app" onclick="openWeChat()">
             <div class="app-icon"><img src="icon/wechat.png" alt="WeChat"></div>
             <span>微信</span>
+          </div>
+          <!-- Instagram 圖標 -->
+          <div class="app" onclick="openApp('instagram')">
+            <div class="app-icon" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); display:flex; align-items:center; justify-content:center; font-size:28px; color:white;">
+              📷
+            </div>
+            <span>Instagram</span>
           </div>
         </div>
 
@@ -134,6 +139,47 @@
         <div class="app-content" id="appContent"></div>
       </div>
 
+      <!-- Instagram 視像通話畫面 -->
+      <div class="ig-call-screen" id="igCallScreen">
+        <div class="ig-call-bg"></div>
+        <div class="ig-call-top">
+          <div class="ig-call-avatar">😸</div>
+          <div class="ig-call-name">小昱</div>
+          <div class="ig-call-status">Instagram 视频通话...</div>
+        </div>
+        <div class="ig-call-bottom">
+          <div class="ig-btn red" onclick="endIgCall()">📞</div>
+        </div>
+      </div>
+
+      <!-- Apple Music 播放器 -->
+      <div class="am-player" id="amPlayer">
+        <div class="am-header">
+          <button onclick="closeMusic()">⌄</button>
+          <div>正在播放</div>
+          <div style="width:20px;"></div>
+        </div>
+        <div class="am-cover">🎵</div>
+        <div class="am-info">
+          <div class="am-title">告白气球</div>
+          <div class="am-artist">周杰伦</div>
+        </div>
+        <div class="am-progress-container">
+          <div class="am-progress-bar">
+            <div class="am-progress" id="amProgress"></div>
+          </div>
+          <div class="am-time">
+            <span>0:00</span>
+            <span>3:35</span>
+          </div>
+        </div>
+        <div class="am-controls">
+          <div class="am-btn">⏮</div>
+          <div class="am-btn play" onclick="togglePlay()" id="amPlayBtn">▶️</div>
+          <div class="am-btn">⏭</div>
+        </div>
+      </div>
+
       <!-- 控制中心 -->
       <div class="control-center" id="controlCenter">
         <div class="cc-panel">
@@ -142,13 +188,6 @@
             <div style="display:flex; align-items:center; gap:10px;"><div style="width:40px; height:40px; border-radius:50%; background:#34c759; display:flex; align-items:center; justify-content:center; font-size:20px;">📶</div> 蜂窝网络</div>
             <div style="display:flex; align-items:center; gap:10px;"><div style="width:40px; height:40px; border-radius:50%; background:#007aff; display:flex; align-items:center; justify-content:center; font-size:20px;">📡</div> Wi-Fi</div>
             <div style="display:flex; align-items:center; gap:10px;"><div style="width:40px; height:40px; border-radius:50%; background:#007aff; display:flex; align-items:center; justify-content:center; font-size:20px;">📻</div> 蓝牙</div>
-          </div>
-          <div class="cc-box" style="grid-column: span 2; padding: 16px;">
-            <div style="font-size:13px; color:#888; margin-bottom:5px;">正在播放</div>
-            <div style="font-size:16px; font-weight:600; margin-bottom:10px;">暂无音乐</div>
-            <div style="display:flex; justify-content:space-between; font-size:24px; color:#333; margin-top:20px;">
-              <span>⏮</span><span>▶️</span><span>⏭</span>
-            </div>
           </div>
         </div>
       </div>
