@@ -16,7 +16,7 @@ function updateTime() {
   }
 
   // 👇 新增：情侶紀念日計算邏輯
-  const startDate = new Date('2022-10-31'); // 👈 你可以喺呢度改你哋嘅開始拍拖日期
+  const startDate = new Date('2022-11-09'); // 👈 你可以喺呢度改你哋嘅開始拍拖日期
   const diff = now - startDate;
   
   const daysTogether = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -36,7 +36,7 @@ function updateTime() {
   }
   
   const wDays = document.getElementById('togetherDays');
-  if(wDays) wDays.textContent = `與小昱在一起的第${dayStr}天`;
+  if(wDays) wDays.textContent = dayStr;
   
   const wTimer = document.getElementById('togetherTimer');
   if(wTimer) wTimer.textContent = `${dayStr}`;
@@ -87,8 +87,18 @@ function resetDots() {
 }
 function checkPass() {
   if (currentPass === correctPass) {
-    document.getElementById('passcodeScreen').classList.remove('show');
+    // 密碼正確！
+    const passScreen = document.getElementById('passcodeScreen');
+    const homeScreen = document.getElementById('homeScreen');
+    
+    // 1. 隱藏鍵盤
+    passScreen.classList.remove('show');
+    
+    // 👇 2. 呢句係關鍵：將主屏幕變返光！
+    if(homeScreen) homeScreen.classList.remove('dim'); 
+    
   } else {
+    // 密碼錯誤：震動動畫
     const dotsContainer = document.querySelector('.passcode-dots');
     dotsContainer.style.transform = 'translateX(-10px)';
     setTimeout(() => dotsContainer.style.transform = 'translateX(10px)', 50);
