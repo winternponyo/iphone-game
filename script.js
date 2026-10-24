@@ -108,8 +108,6 @@ const appData = {
   '相册': `
     <div style="background: #fff; height: 100%; margin: -20px; padding: 10px;">
       <div style="font-size: 24px; font-weight: bold; margin-bottom: 10px; padding-left: 10px;">相簿</div>
-      
-      <!-- 隱藏相簿文件夾 -->
       <div onclick="alert('需要 Face ID 驗證... 驗證成功！\\n（裡面全是圓圓滿滿的結婚證和神圖）')" style="background: #f2f2f7; border-radius: 10px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; cursor: pointer;">
         <div style="font-size: 24px;">🔒</div>
         <div style="flex: 1;">
@@ -118,7 +116,6 @@ const appData = {
         </div>
         <div style="color: #c7c7cc; font-size: 20px;">›</div>
       </div>
-
       <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; padding-left: 10px;">最近项目</div>
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;">
         <div style="aspect-ratio: 1; background: #e5e5ea; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 35px;">🏓</div>
@@ -576,3 +573,15 @@ function openXianyu() {
   `;
   appView.classList.add('show');
 }
+
+// ====== 神級全螢幕判斷 ======
+function checkMobile() {
+  const phone = document.getElementById('phone');
+  if (window.innerWidth <= 500) {
+    phone.classList.add('mob');
+  } else {
+    phone.classList.remove('mob');
+  }
+}
+window.addEventListener('load', checkMobile);
+window.addEventListener('resize', checkMobile);

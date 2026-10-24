@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>我的手机</title>
   <link rel="stylesheet" href="style.css">
   <style>
@@ -11,7 +13,7 @@
   </style>
 </head>
 <body>
-  <div class="phone">
+  <div id="phone">
     <div class="screen">
       
       <!-- 狀態欄 -->
@@ -35,27 +37,18 @@
             <div style="flex: 1; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 20px; padding: 15px 10px; text-align: center; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; align-items: center;">
               <div style="font-size: 15px; font-weight: 500; margin-bottom: 8px; opacity: 0.9;">向前向上向圆满</div>
               <div style="display: flex; justify-content: center; align-items: center; gap: 6px; width: 100%;">
-                
-                <!-- 👇 Abby 嘅大細 -->
                 <span style="opacity: 0.85; font-weight: 600; font-size: 15px;">Abby</span>
-                
-                <!-- 中間心心虛線 -->
                 <div style="flex: 1; display: flex; align-items: center; max-width: 40px;">
                   <div style="flex: 1; height: 1px; border-bottom: 1px dashed rgba(255,255,255,0.5);"></div>
-                  <!-- 👇 心心嘅大細 -->
                   <span style="font-size: 10px; color: #ff3b30; margin: 0 2px;">❤️</span>
                   <div style="flex: 1; height: 1px; border-bottom: 1px dashed rgba(255,255,255,0.5);"></div>
                 </div>
-                
-                <!-- 👇 Eric 嘅大細 -->
                 <span style="opacity: 0.85; font-weight: 600; font-size: 15px;">Eric</span>
-                
               </div>
             </div>
           </div>
         </div>
 	
-        <!-- 底部按鈕 -->
         <div class="lock-bottom">
           <div class="lock-circle">
             <img src="icon/lockflashlight.png" style="width: 26px; height: 26px; filter: invert(1);">
@@ -73,10 +66,10 @@
       <div class="home-screen" id="homeScreen" style="transition: filter 0.3s ease, transform 0.3s ease; display: flex; flex-direction: column; justify-content: space-between;">
         
         <!-- 上半部分 -->
-        <div style="flex: 1; padding-top: 20px; padding-bottom: 20px;">
+        <div style="flex: 1; padding-top: 15px; padding-bottom: 10px;">
           
           <!-- 天氣 Widget -->
-          <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; height: 80px; box-sizing: border-box;">
+          <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 12px; height: 75px; box-sizing: border-box;">
             <div style="display: flex; flex-direction: column; justify-content: center;">
               <div style="font-size: 12px; opacity: 0.8; margin-bottom: 2px;">北京</div>
               <div style="font-size: 24px; font-weight: 300; line-height: 1;">18°</div>
@@ -89,19 +82,19 @@
           </div>
 
           <!-- 相簿 Widget -->
-          <div onclick="openApp('相册')" style="background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); border-radius: 20px; padding: 15px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px;">
+          <div onclick="openApp('相册')" style="background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); border-radius: 20px; padding: 15px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 12px;">
             <div style="font-size: 14px; font-weight: bold; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.2); margin-bottom: 10px; display: flex; justify-content: space-between;">
               <span>圆圆满满的回忆</span>
               <span style="font-weight: normal;">˗ˋˏ ♡ ˎˊ˗</span>
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-              <div style="background: rgba(255,255,255,0.3); border-radius: 10px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 24px;">🏓</div>
-              <div style="background: rgba(255,255,255,0.3); border-radius: 10px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 24px;">🏆</div>
+              <div style="background: rgba(255,255,255,0.3); border-radius: 10px; height: 55px; display: flex; align-items: center; justify-content: center; font-size: 24px;">🏓</div>
+              <div style="background: rgba(255,255,255,0.3); border-radius: 10px; height: 55px; display: flex; align-items: center; justify-content: center; font-size: 24px;">🏆</div>
             </div>
           </div>
 
           <!-- App 圖標區塊 -->
-          <div class="app-grid" style="align-content: start; gap: 20px 15px;">
+          <div class="app-grid" style="align-content: start; gap: 15px 15px;">
             <div class="app" onclick="openApp('相册')"><div class="app-icon"><img src="icon/photos.png" alt="相册"></div><span>相册</span></div>
             <div class="app" onclick="openApp('天气')"><div class="app-icon"><img src="icon/weather.png" alt="天气"></div><span>天气</span></div>
             <div class="app" onclick="openApp('备忘录')"><div class="app-icon"><img src="icon/notes.png" alt="备忘录"></div><span>备忘录</span></div>
@@ -119,7 +112,7 @@
           </div>
 
           <!-- 頁面指示點 -->
-          <div style="display: flex; justify-content: center; gap: 8px; margin: 40px 0 10px 0;">
+          <div style="display: flex; justify-content: center; gap: 8px; margin: 10px 0 5px 0;">
             <div style="width: 8px; height: 8px; border-radius: 50%; background: #fff; opacity: 0.9;"></div>
             <div style="width: 8px; height: 8px; border-radius: 50%; background: #fff; opacity: 0.3;"></div>
           </div>
