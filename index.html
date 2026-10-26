@@ -26,7 +26,7 @@
 
       <!-- 鎖屏 -->
       <div class="lock-screen" id="lockScreen">
-        <div class="lock-date" id="lockDate">10月17日 星期六</div>
+        <div class="lock-date" id="lockDate">10月24日 星期六</div>
         <div class="lock-time">5:51</div>
         
         <div class="ios-widgets" style="display: flex; flex-direction: column; align-items: center; width: 100%; padding: 0 20px; margin-top: 10px;">
@@ -50,11 +50,22 @@
           </div>
         </div>
 
-        <div class="lock-bottom">
+        <!-- 鎖屏通知 -->
+        <div class="lock-notification" onclick="showPasscode()">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+            <div style="width: 20px; height: 20px; background: #07c160; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-size: 12px;">💬</div>
+            <span style="font-size: 13px; font-weight: 500; opacity: 0.9;">微信</span>
+            <span style="font-size: 12px; opacity: 0.6; margin-left: auto;">现在</span>
+          </div>
+          <div style="font-size: 14px; font-weight: 600; margin-bottom: 2px;">小昱</div>
+          <div style="font-size: 14px; opacity: 0.9;">我到机场了，你睡了没？</div>
+        </div>
+
+        <div class="lock-bottom" style="justify-content: space-between;">
           <div class="lock-circle">
             <img src="icon/lockflashlight.png" style="width: 26px; height: 26px; filter: invert(1);">
           </div>
-          <div class="swipe-hint" onclick="showPasscode()" style="cursor: pointer; padding: 8px 16px; background: rgba(255,255,255,0.15); border-radius: 20px;">点击解锁</div>
+          <div class="swipe-hint" style="opacity: 0.6;">向上轻扫以解锁</div>
           <div class="lock-circle">
             <img src="icon/lockcamera.png" style="width: 32px; height: 32px; filter: invert(1);">
           </div>
@@ -63,14 +74,11 @@
 
       <!-- 主屏幕 -->
       <div class="home-screen" id="homeScreen">
-        
         <div class="home-content">
-          
-          <!-- 天氣 Widget -->
           <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); border-radius: 20px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; color: #fff; margin-bottom: 12px; height: 75px; box-sizing: border-box;">
             <div>
-              <div style="font-size: 12px; opacity: 0.8;">北京</div>
-              <div style="font-size: 24px; font-weight: 300;">18°</div>
+              <div style="font-size: 12px; opacity: 0.8;">广州</div>
+              <div style="font-size: 24px; font-weight: 300;">26°</div>
             </div>
             <div style="font-size: 20px; opacity: 0.9; margin: 0 15px;">ᯓᰔ</div>
             <div style="text-align: right;">
@@ -79,7 +87,6 @@
             </div>
           </div>
 
-          <!-- 相簿 Widget -->
           <div onclick="openApp('相册')" style="background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); border-radius: 20px; padding: 15px; cursor: pointer; margin-bottom: 20px;">
             <div style="font-size: 14px; font-weight: bold; color: #fff; margin-bottom: 10px; display: flex; justify-content: space-between;">
               <span>圆圆满满的回忆</span><span>˗ˋˏ ♡ ˎˊ˗</span>
@@ -90,7 +97,6 @@
             </div>
           </div>
 
-          <!-- App 圖標區塊 -->
           <div class="app-grid">
             <div class="app" onclick="openApp('相册')"><div class="app-icon"><img src="icon/photos.png"></div><span>相册</span></div>
             <div class="app" onclick="openApp('天气')"><div class="app-icon"><img src="icon/weather.png"></div><span>天气</span></div>
@@ -105,18 +111,30 @@
             <div class="app" onclick="openCountdown()"><div class="app-icon" style="background: #ff3b30; color: white; display:flex; align-items:center; justify-content:center; font-size:26px; border-radius: 15px;">⏳</div><span>倒数日</span></div>
             <div class="app" onclick="openMusic()"><div class="app-icon" style="background: #ff2d55; color: white; display:flex; align-items:center; justify-content:center; font-size:26px; border-radius: 15px;">🎵</div><span>音乐</span></div>
             <div class="app" onclick="openCalculator()"><div class="app-icon" style="background: #333; color: white; display:flex; align-items:center; justify-content:center; font-size:26px; border-radius: 15px;">🧮</div><span>计算器</span></div>
-            <div class="app" onclick="openCalendar()"><div class="app-icon" style="background: white; color: #ff3b30; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:bold; border-radius: 15px;">17</div><span>日历</span></div>
+            <div class="app" onclick="openCalendar()"><div class="app-icon" style="background: white; color: #ff3b30; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:bold; border-radius: 15px;">24</div><span>日历</span></div>
           </div>
-
         </div>
 
-        <!-- 搜索掣 (絕對釘死喺 Dock 上面，唔會重疊) -->
         <div class="spot">🔍 搜索</div>
 
-        <!-- 底部 Dock -->
         <div class="dock">
           <div class="app" onclick="openApp('电话')"><div class="app-icon"><img src="icon/phone.png" style="width:110%; height:110%;"></div><span>电话</span></div>
           <div class="app" onclick="openApp('Safari')"><div class="app-icon"><img src="icon/safari.png"></div><span>Safari</span></div>
+        </div>
+      </div>
+
+      <!-- 通知中心 -->
+      <div class="notification-center" id="notificationCenter">
+        <div class="nc-time" id="ncTime">10:24</div>
+        <div class="nc-date" id="ncDate">10月24日 星期六</div>
+        
+        <div class="nc-notification" onclick="openWeChatFromNC()">
+          <div class="nc-icon" style="background: #07c160;">💬</div>
+          <div class="nc-content">
+            <div class="nc-header"><span>微信</span><span>现在</span></div>
+            <div class="nc-title">小昱</div>
+            <div class="nc-body">我到机场了，你睡了没？</div>
+          </div>
         </div>
       </div>
 
@@ -140,18 +158,81 @@
 
       <!-- App 弹层 -->
       <div class="app-view" id="appView">
-        <div class="app-header">
-          <button onclick="closeApp()">← 返回</button>
-          <span id="appTitle"></span>
-        </div>
         <div class="app-content" id="appContent"></div>
       </div>
 
-      <!-- 底部 Home 橫條 -->
-      <div style="position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); width: 130px; height: 5px; background: #fff; border-radius: 10px; z-index: 100; pointer-events: none;"></div>
+      <!-- 模擬來電 (iOS 26 風格) -->
+      <div class="call-screen" id="callScreen">
+        <div class="call-header">
+          <div class="call-name" id="callName">小昱</div>
+          <div class="call-status" id="callStatus">邀请你进行语音通话...</div>
+        </div>
+        
+        <div class="call-chat" id="callChat">
+          <div class="call-chat-bubble">喂？高远，你那边现在几点了？</div>
+          <div class="call-chat-bubble right">凌晨两点多。你上飞机了吗？</div>
+          <div class="call-chat-bubble">上了，刚放好行李。有点睡不着，给你打个电话。</div>
+          <div class="call-chat-bubble right">别紧张，当去旅游。你那个比赛，放开了打就行。</div>
+          <div class="call-chat-bubble">嗯，我知道。等我拿冠军回来。</div>
+          <div class="call-chat-bubble right">好，我等你。快去休息吧，到了给我报平安。</div>
+          <div class="call-chat-bubble">好。挂了，拜拜。</div>
+        </div>
 
-    </div>
-  </div>
+        <!-- 通話中底部功能掣 (iOS 26) -->
+        <div class="call-actions-in-call" id="callActionsInCall" style="display: none;">
+          <div class="call-action-btn">
+            <span><img src="icon/mute.svg" style="width: 24px; height: 24px; filter: invert(1);"></span>
+            <div>静音</div>
+          </div>
+          <div class="call-action-btn">
+            <span><img src="icon/keypad.svg" style="width: 24px; height: 24px; filter: invert(1);"></span>
+            <div>键盘</div>
+          </div>
+          <div class="call-action-btn">
+            <span><img src="icon/speaker.svg" style="width: 24px; height: 24px; filter: invert(1);"></span>
+            <div>扩音</div>
+          </div>
+          <div class="call-action-btn">
+            <span><img src="icon/addcall.svg" style="width: 24px; height: 24px; filter: invert(1);"></span>
+            <div>添加</div>
+          </div>
+          <div class="call-action-btn">
+            <span><img src="icon/facetime.svg" style="width: 24px; height: 24px; filter: invert(1);"></span>
+            <div>FaceTime</div>
+          </div>
+          <div class="call-action-btn">
+            <span><img src="icon/contacts.svg" style="width: 24px; height: 24px; filter: invert(1);"></span>
+            <div>联系人</div>
+          </div>
+        </div>
+
+        <!-- 初始接聽/拒絕按鈕 -->
+        <div class="call-answer-actions" id="callAnswerActions">
+          <div class="call-btn-answer decline" onclick="declineCall()">
+            <img src="icon/calldecline.svg" style="width: 35px; height: 35px;">
+          </div>
+          <div class="call-btn-answer accept" onclick="acceptCall()">
+            <img src="icon/callaccept.svg" style="width: 35px; height: 35px;">
+          </div>
+        </div>
+        
+          <!-- 通話中掛斷按鈕 -->
+          <div class="call-end-btn" id="callEndBtn" onclick="endCall()" style="display: none;">End</div>
+        </div>
+      </div>
+
+      <!-- 底部 Home 橫條 -->
+      <div id="homeIndicator">
+        <div style="width: 130px; height: 5px; background: #fff; border-radius: 10px; pointer-events: none;"></div>
+      </div>
+
+      <!-- 新手提示 -->
+      <div id="hintToast" style="position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 14px; z-index: 9999; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap;">
+        向上/右滑动即可返回
+      </div>
+
+    </div> <!-- screen 結尾 -->
+  </div> <!-- phone 結尾 -->
   <script src="script.js"></script>
 </body>
 </html>
