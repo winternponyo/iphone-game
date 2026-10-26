@@ -19,7 +19,6 @@ function updateTime() {
   const ncDate = document.getElementById('ncDate');
   if (ncDate) ncDate.textContent = '10月24日 星期六';
 
-  // 計算在一起天數 (2022-10-31 到 2026-10-24)
   const startDate = new Date('2022-10-31'); 
   const currentDate = new Date('2026-10-24');
   const diff = currentDate - startDate;
@@ -84,7 +83,6 @@ function checkPass() {
       homeScreen.classList.add('show');
     }
     
-    // 💡 每次解鎖都強制清走記錄，保證個 Timer 一定會行 (15秒)
     localStorage.removeItem('callAnswered');
     if (window.callTimer) clearTimeout(window.callTimer);
     window.callTimer = setTimeout(triggerCall, 15000);
@@ -115,46 +113,80 @@ function cancelPasscode() {
   }
 }
 
-// ====== 模擬來電邏輯 (iOS 26 風格) ======
+// ====== 模擬來電邏輯 ======
 function triggerCall() {
   const callScreen = document.getElementById('callScreen');
   if (callScreen) {
     callScreen.classList.add('show');
-    closeApp(); // 關閉 App
+    closeApp();
     const nc = document.getElementById('notificationCenter');
-    if (nc) nc.classList.remove('show'); // 關閉通知中心
+    if (nc) nc.classList.remove('show');
 
     document.getElementById('callStatus').textContent = '邀请你进行语音通话...';
     document.getElementById('callChat').style.display = 'none';
     document.getElementById('callActionsInCall').style.display = 'none';
-    document.getElementById('callAnswerActions').style.display = 'flex';
     document.getElementById('callEndBtn').style.display = 'none';
+    document.getElementById('callSlideContainer').style.display = 'flex'; 
   }
 }
 
+let callTimerInterval = null; 
+
 function acceptCall() {
-  document.getElementById('callStatus').textContent = '00:01';
-  document.getElementById('callAnswerActions').style.display = 'none';
+  document.getElementById('callSlideContainer').style.display = 'none';
   
   const chat = document.getElementById('callChat');
   chat.style.display = 'flex';
+  chat.innerHTML = ''; 
   document.getElementById('callActionsInCall').style.display = 'grid';
-  document.getElementById('callEndBtn').style.display = 'flex';
   
-  const bubbles = chat.querySelectorAll('.call-chat-bubble');
-  bubbles.forEach((bubble, index) => {
-    bubble.style.animationDelay = `${index * 1.5}s`;
+  const endBtn = document.getElementById('callEndBtn');
+  endBtn.style.display = 'flex';
+  endBtn.innerHTML = '<img src="icon/endcall.svg" style="width: 35px; height: 35px;">';
+
+  let callSeconds = 0;
+  const statusEl = document.getElementById('callStatus');
+  statusEl.textContent = '00:00'; 
+  
+  if (callTimerInterval) clearInterval(callTimerInterval);
+  callTimerInterval = setInterval(() => {
+    callSeconds++;
+    const m = String(Math.floor(callSeconds / 60)).padStart(2, '0');
+    const s = String(callSeconds % 60).padStart(2, '0');
+    statusEl.textContent = `${m}:${s}`;
+  }, 1000);
+
+  const messages = [
+    { text: "喂？高远，你那边现在几点了？", type: "left" },
+    { text: "凌晨两点多。你上飞机了吗？", type: "right" },
+    { text: "上了，刚放好行李。有点睡不着，给你打个电话。", type: "left" },
+    { text: "别紧张，当去旅游。你那个比赛，放开了打就行。", type: "right" },
+    { text: "嗯，我知道。等我拿冠军回来。", type: "left" },
+    { text: "好，我等你。快去休息吧，到了给我报平安。", type: "right" },
+    { text: "好。挂了，拜拜。", type: "left" }
+  ];
+
+  messages.forEach((msg, index) => {
+    setTimeout(() => {
+      const bubble = document.createElement('div');
+      bubble.className = `call-chat-bubble ${msg.type === 'right' ? 'right' : ''}`;
+      bubble.textContent = msg.text;
+      chat.appendChild(bubble);
+      setTimeout(() => { chat.scrollTop = chat.scrollHeight; }, 50);
+    }, index * 2000); 
   });
 }
 
 function declineCall() {
   document.getElementById('callScreen').classList.remove('show');
   localStorage.setItem('callAnswered', 'declined');
+  if (callTimerInterval) clearInterval(callTimerInterval);
 }
 
 function endCall() {
   document.getElementById('callScreen').classList.remove('show');
   localStorage.setItem('callAnswered', 'true');
+  if (callTimerInterval) clearInterval(callTimerInterval);
 }
 
 // ====== 通知中心手勢邏輯 ======
@@ -278,30 +310,73 @@ const appData = {
     </div>
   </div>`,
   
-  'Safari': '<div style="text-align:center;padding-top:40px;color:#666"><img src="icon/emoji/global.png" style="width:60px; height:60px; object-fit:contain; margin-bottom:10px;"><br>输入网址开始浏览</div>'
+  'Safari': '<div style="text-align:center;padding-top:40px;color:#666"><img src="icon/emoji/global.png" style="width:60px; height:60px; object-fit:contain; margin-bottom:10px;"><br>输入网址开始浏览</div>',
+
+  '小紅書': `<div style="background: #f8f8f8; height: 100%; overflow-y: auto; font-family: -apple-system, sans-serif;">
+    <!-- 頂部導航 -->
+    <div style="position: sticky; top: 0; background: #f8f8f8; z-index: 10; padding: 50px 16px 10px; display: flex; justify-content: center; gap: 20px; font-size: 16px; color: #999;">
+      <span>关注</span>
+      <span style="color: #000; font-weight: 600; font-size: 18px; position: relative;">发现<span style="position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); width: 20px; height: 3px; background: #ff2442; border-radius: 2px;"></span></span>
+      <span>附近</span>
+    </div>
+
+    <!-- 瀑布流貼文 -->
+    <div style="padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      
+      <!-- 貼文 1：貓咖探店 -->
+      <div onclick="alert('🐱 广州探店 | 偶遇林高远的猫咖！\\n今天去了远剑猫咖，见到了超可爱的貂蝉！林老板本人超帅，可惜没敢上去搭话~ 葡萄果茶真的很好喝！')" style="background: #fff; border-radius: 10px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+        <div style="height: 150px; background: linear-gradient(135deg, #ff9a9e, #fecfef); display: flex; justify-content: center; align-items: center; font-size: 50px;">🐱</div>
+        <div style="padding: 8px;">
+          <div style="font-size: 13px; color: #333; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 5px;">广州探店 | 偶遇林高远的猫咖！貂蝉太可爱了</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #999;">
+            <span>🏓 圆圆的小迷妹</span>
+            <span>❤️ 1.2w</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 貼文 2：機場偶遇 -->
+      <div onclick="alert('✈️ 天啊！今天在机场偶遇王曼昱！\\n她本人真的好高好瘦，好像在办理去法国的托运。不敢上去打扰，祝比赛顺利！')" style="background: #fff; border-radius: 10px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+        <div style="height: 120px; background: linear-gradient(135deg, #a1c4fd, #c2e9fb); display: flex; justify-content: center; align-items: center; font-size: 50px;">✈️</div>
+        <div style="padding: 8px;">
+          <div style="font-size: 13px; color: #333; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 5px;">机场偶遇王曼昱！本人真的又高又美...</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #999;">
+            <span>🏓 曼昱的球迷</span>
+            <span>❤️ 8562</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 貼文 3：車隊日常 -->
+      <div onclick="alert('🏎️ 远剑车队 DKS 日常练车！\\n引擎的轰鸣声真的太帅了，林老板的车技真的没话说。')" style="background: #fff; border-radius: 10px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+        <div style="height: 160px; background: linear-gradient(135deg, #e0c3fc, #8ec5fc); display: flex; justify-content: center; align-items: center; font-size: 50px;">🏎️</div>
+        <div style="padding: 8px;">
+          <div style="font-size: 13px; color: #333; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 5px;">远剑车队 DKS 日常练车，太帅了！</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #999;">
+            <span>🏎️ 赛车手小王</span>
+            <span>❤️ 3421</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 貼文 4：同款手鏈 -->
+      <div onclick="alert('📿 买到了同款手链！\\n林高远和王曼昱同款的！虽然是单人款，但四舍五入就是情侣款了，开心~')" style="background: #fff; border-radius: 10px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+        <div style="height: 130px; background: linear-gradient(135deg, #84fab0, #8fd3f4); display: flex; justify-content: center; align-items: center; font-size: 50px;">📿</div>
+        <div style="padding: 8px;">
+          <div style="font-size: 13px; color: #333; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 5px;">买到了圆满同款手链！四舍五入就是情侣...</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #999;">
+            <span>✨ 磕糖第一名</span>
+            <span>❤️ 5621</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>`
 };
 
 function openApp(name) {
-  showHint(); // 👈 加呢句，等所有 App 都會觸發提示
-
-  if (name === 'instagram') {
-    appContent.innerHTML = `
-      <div style="background: #000; height: 100%; margin: -20px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; position: relative;">
-        <div style="position: absolute; top: 60px; text-align: center;">
-          <div style="font-size: 20px; font-weight: 500; margin-bottom: 5px;">小昱</div>
-          <div style="font-size: 14px; color: #aaa;">Instagram 语音通话...</div>
-        </div>
-        <div style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); display: flex; align-items: center; justify-content: center; font-size: 50px; margin-bottom: 30px; box-shadow: 0 0 30px rgba(220,39,67,0.5);">
-          🏓
-        </div>
-        <div style="display: flex; gap: 40px; position: absolute; bottom: 80px;">
-          <div onclick="closeApp()" style="width: 70px; height: 70px; border-radius: 50%; background: #ff3b30; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer;">📞</div>
-        </div>
-      </div>
-    `;
-    appView.classList.add('show');
-    return;
-  }
+  showHint();
   appContent.innerHTML = appData[name] || '这个 App 还没做。';
   appView.classList.add('show');
 }
@@ -327,7 +402,6 @@ function openWeChat() {
       </div>
 
       <div style="flex:1; overflow-y:auto;">
-        <!-- 置頂：小昱 -->
         <div class="wechat-list-item pinned" onclick="openChat('小昱')" style="background: #f4f4f4; padding: 12px 16px; display: flex; align-items: center; border-bottom: 1px solid #e5e5e5; cursor: pointer;">
           <div class="wechat-avatar" style="width: 48px; height: 48px; border-radius: 6px; background: #f7b2c1; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-right: 12px;">🏓</div>
           <div class="wechat-info" style="flex: 1; overflow: hidden;">
@@ -338,7 +412,6 @@ function openWeChat() {
           </div>
         </div>
 
-        <!-- 群組：广东队 -->
         <div class="wechat-list-item" onclick="openChat('广东队')" style="background: #fff; padding: 12px 16px; display: flex; align-items: center; border-bottom: 1px solid #e5e5e5; cursor: pointer;">
           <div class="wechat-avatar" style="width: 48px; height: 48px; border-radius: 6px; background: #007aff; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-right: 12px; color: white;">粤</div>
           <div class="wechat-info" style="flex: 1; overflow: hidden;">
@@ -349,7 +422,6 @@ function openWeChat() {
           </div>
         </div>
 
-        <!-- 群組：远剑工作室 -->
         <div class="wechat-list-item" onclick="openChat('远剑工作室')" style="background: #fff; padding: 12px 16px; display: flex; align-items: center; border-bottom: 1px solid #e5e5e5; cursor: pointer;">
           <div class="wechat-avatar" style="width: 48px; height: 48px; border-radius: 6px; background: #34c759; color: white; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-right: 12px;">💼</div>
           <div class="wechat-info" style="flex: 1; overflow: hidden;">
@@ -511,7 +583,7 @@ function sendMessage() {
 
 function handleEnter(e) { if (e.key === 'Enter') sendMessage(); }
 
-// ====== 其他 App (微博/倒數/音樂/計算機/日曆/閒魚) ======
+// ====== 其他 App ======
 function openWeibo() {
   showHint();
   appContent.innerHTML = `
@@ -549,7 +621,7 @@ function openCountdown() {
 function openMusic() {
   showHint();
   appContent.innerHTML = `
-    <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); height: 100%; margin: -20px; display: flex; flex-direction: column; align-items: center; padding: 40px 20px;">
+    <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); height: 100%; padding: 60px 20px 20px; display: flex; flex-direction: column; align-items: center; padding: 40px 20px;">
       <div style="width: 100%; display: flex; justify-content: center; font-size: 12px; font-weight: 600; color: #888; margin-bottom: 30px; margin-top: 20px;">正在播放</div>
       <div style="width: 280px; height: 280px; border-radius: 10px; background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); display: flex; justify-content: center; align-items: center; font-size: 80px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin-bottom: 40px;">🎵</div>
       <div style="text-align: center; margin-bottom: 30px;"><div style="font-size: 22px; font-weight: 600; color: #000; margin-bottom: 5px;">落在生命里的光</div><div style="font-size: 18px; color: #888;">圆圆满满粉丝歌单</div></div>
@@ -561,28 +633,42 @@ function openMusic() {
 function openCalculator() {
   showHint();
   appContent.innerHTML = `
-    <div style="background: #000; height: 100%; margin: -20px; padding: 20px; display: flex; flex-direction: column; justify-content: flex-end;">
-      <input type="text" id="calcInput" readonly value="0" style="width: 100%; background: transparent; border: none; color: #fff; font-size: 64px; text-align: right; outline: none; margin-bottom: 20px;">
-      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
-        <div onclick="calcInput('C')" style="background: #a5a5a5; color: #000; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 28px; cursor: pointer;">AC</div>
-        <div onclick="calcInput('+/-')" style="background: #a5a5a5; color: #000; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 28px; cursor: pointer;">+/-</div>
-        <div onclick="calcInput('%')" style="background: #a5a5a5; color: #000; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 28px; cursor: pointer;">%</div>
-        <div onclick="calcInput('/')" style="background: #ff9500; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">÷</div>
-        <div onclick="calcInput('7')" style="background: #333; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">7</div>
-        <div onclick="calcInput('8')" style="background: #333; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">8</div>
-        <div onclick="calcInput('9')" style="background: #333; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">9</div>
-        <div onclick="calcInput('*')" style="background: #ff9500; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">×</div>
-        <div onclick="calcInput('4')" style="background: #333; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">4</div>
-        <div onclick="calcInput('5')" style="background: #333; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">5</div>
-        <div onclick="calcInput('6')" style="background: #333; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">6</div>
-        <div onclick="calcInput('-')" style="background: #ff9500; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">−</div>
-        <div onclick="calcInput('1')" style="background: #333; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">1</div>
-        <div onclick="calcInput('2')" style="background: #333; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">2</div>
-        <div onclick="calcInput('3')" style="background: #333; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">3</div>
-        <div onclick="calcInput('+')" style="background: #ff9500; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">+</div>
-        <div onclick="calcInput('0')" style="background: #333; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; grid-column: span 2; cursor: pointer;">0</div>
-        <div onclick="calcInput('.')" style="background: #333; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">.</div>
-        <div onclick="calcInput('=')" style="background: #ff9500; color: #fff; border-radius: 50%; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">=</div>
+    <div style="background: #000; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 20px;">
+      <!-- 顯示屏 -->
+      <div style="padding: 0 20px 20px; text-align: right; color: #fff;">
+        <input type="text" id="calcInput" readonly value="0" style="width: 100%; background: transparent; border: none; color: #fff; font-size: 72px; font-weight: 300; text-align: right; outline: none;">
+      </div>
+
+      <!-- 鍵盤區 -->
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 0 16px;">
+        <!-- 第一行 (灰色) -->
+        <div onclick="calcInput('C')" style="background: #a5a5a5; color: #000; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 32px; font-weight: 500; cursor: pointer;">AC</div>
+        <div onclick="calcInput('+/-')" style="background: #a5a5a5; color: #000; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 32px; font-weight: 500; cursor: pointer;">+/-</div>
+        <div onclick="calcInput('%')" style="background: #a5a5a5; color: #000; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 32px; font-weight: 500; cursor: pointer;">%</div>
+        <div onclick="calcInput('/')" style="background: #ff9500; color: #fff; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 36px; cursor: pointer;">÷</div>
+
+        <!-- 第二行 -->
+        <div onclick="calcInput('7')" style="background: #333; color: #fff; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">7</div>
+        <div onclick="calcInput('8')" style="background: #333; color: #fff; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">8</div>
+        <div onclick="calcInput('9')" style="background: #333; color: #fff; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">9</div>
+        <div onclick="calcInput('*')" style="background: #ff9500; color: #fff; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 36px; cursor: pointer;">×</div>
+
+        <!-- 第三行 -->
+        <div onclick="calcInput('4')" style="background: #333; color: #fff; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">4</div>
+        <div onclick="calcInput('5')" style="background: #333; color: #fff; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">5</div>
+        <div onclick="calcInput('6')" style="background: #333; color: #fff; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">6</div>
+        <div onclick="calcInput('-')" style="background: #ff9500; color: #fff; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 36px; cursor: pointer;">−</div>
+
+        <!-- 第四行 -->
+        <div onclick="calcInput('1')" style="background: #333; color: #fff; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">1</div>
+        <div onclick="calcInput('2')" style="background: #333; color: #fff; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">2</div>
+        <div onclick="calcInput('3')" style="background: #333; color: #fff; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">3</div>
+        <div onclick="calcInput('+')" style="background: #ff9500; color: #fff; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 36px; cursor: pointer;">+</div>
+
+        <!-- 第五行 -->
+        <div onclick="calcInput('0')" style="background: #333; color: #fff; border-radius: 40px; aspect-ratio: 2.35 / 1; display: flex; justify-content: flex-start; align-items: center; font-size: 32px; grid-column: span 2; padding-left: 28px; cursor: pointer;">0</div>
+        <div onclick="calcInput('.')" style="background: #333; color: #fff; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 32px; cursor: pointer;">.</div>
+        <div onclick="calcInput('=')" style="background: #ff9500; color: #fff; border-radius: 50%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 36px; cursor: pointer;">=</div>
       </div>
     </div>
   `;
@@ -594,8 +680,8 @@ function calcInput(val) {
   if (val === 'C') { input.value = '0'; }
   else if (val === '=') {
     if (input.value === '5201314') { input.style.fontSize = '24px'; input.value = 'lgywawmy❤️wmywalgy'; setTimeout(() => { input.style.fontSize = '64px'; input.value = '0'; }, 3000); }
-    else if (input.value === '0319') { input.style.fontSize = '32px'; input.value = '林高远生日快乐🎂'; setTimeout(() => { input.style.fontSize = '64px'; input.value = '0'; }, 3000); }
-    else if (input.value === '0209') { input.style.fontSize = '32px'; input.value = '王曼昱生日快乐🎂'; setTimeout(() => { input.style.fontSize = '64px'; input.value = '0'; }, 3000); }
+    else if (input.value === '319') { input.style.fontSize = '32px'; input.value = '林高远生日快乐🎂'; setTimeout(() => { input.style.fontSize = '64px'; input.value = '0'; }, 3000); }
+    else if (input.value === '209') { input.style.fontSize = '32px'; input.value = '王曼昱生日快乐🎂'; setTimeout(() => { input.style.fontSize = '64px'; input.value = '0'; }, 3000); }
     else { try { input.value = eval(input.value); } catch { input.value = 'Error'; } }
   } else { if (input.value === '0' && val !== '.') input.value = val; else input.value += val; }
 }
@@ -655,57 +741,74 @@ setTimeout(checkMobile, 100);
 
 function goHome() { closeApp(); }
 
-let homeStartY = 0;
-let edgeStartX = 0;
-
-const homeIndicator = document.getElementById('homeIndicator');
-const screenEl = document.querySelector('.screen');
-
-if (homeIndicator) {
-  homeIndicator.addEventListener('touchstart', e => { homeStartY = e.touches[0].clientY; }, { passive: true });
-  homeIndicator.addEventListener('touchend', e => {
-    const dy = e.changedTouches[0].clientY - homeStartY;
-    if (dy < -20) {
-      closeApp();
-      const nc = document.getElementById('notificationCenter');
-      if (nc) nc.classList.remove('show');
-    }
-  }, { passive: true });
-  homeIndicator.addEventListener('mousedown', e => { homeStartY = e.clientY; });
-  homeIndicator.addEventListener('mouseup', e => { 
-    if (homeStartY - e.clientY > 20) {
-      closeApp();
-      const nc = document.getElementById('notificationCenter');
-      if (nc) nc.classList.remove('show');
-    } 
-  });
-}
-
-if (screenEl) {
-  screenEl.addEventListener('touchstart', e => {
-    if (e.touches[0].clientX < 30) { edgeStartX = e.touches[0].clientX; } else { edgeStartX = null; }
-  }, { passive: true });
-  screenEl.addEventListener('touchend', e => {
-    if (edgeStartX !== null) {
-      const dx = e.changedTouches[0].clientX - edgeStartX;
-      if (dx > 50) closeApp();
-    }
-  }, { passive: true });
-}
-
 function showHint() {
   const toast = document.getElementById('hintToast');
-  // 確保元素存在，且本次 Refresh 未顯示過
   if (toast && !window.hasShownHint) {
     toast.style.opacity = '1';
     setTimeout(() => { 
       toast.style.opacity = '0'; 
-      window.hasShownHint = true; // 標記為已顯示
+      window.hasShownHint = true; 
     }, 2000);
   }
 }
 
-// 鎖屏滑動解鎖 & 點擊解鎖
+// ====== 滑動接聽拖拽邏輯 ======
+const slideContainer = document.getElementById('callSlideContainer');
+const slideBtn = document.getElementById('callSlideBtn');
+let isDragging = false;
+let startX = 0;
+let currentX = 0;
+const maxDrag = 200; 
+
+if (slideBtn) {
+  slideBtn.addEventListener('mousedown', startDrag);
+  slideBtn.addEventListener('touchstart', startDrag, { passive: false });
+}
+
+function startDrag(e) {
+  isDragging = true;
+  startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+  document.addEventListener('mousemove', onDrag);
+  document.addEventListener('mouseup', endDrag);
+  document.addEventListener('touchmove', onDrag, { passive: false });
+  document.addEventListener('touchend', endDrag);
+}
+
+function onDrag(e) {
+  if (!isDragging) return;
+  if (e.cancelable) e.preventDefault(); 
+  const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+  currentX = clientX - startX;
+  if (currentX > 0 && currentX <= maxDrag) {
+    slideBtn.style.transition = 'none';
+    slideBtn.style.transform = `translateX(${currentX}px)`;
+  }
+}
+
+function endDrag(e) {
+  if (!isDragging) return;
+  isDragging = false;
+  if (currentX > 50) {
+    slideBtn.style.transition = 'transform 0.2s ease';
+    slideBtn.style.transform = `translateX(${maxDrag}px)`;
+    setTimeout(() => {
+      acceptCall(); 
+      slideBtn.style.transform = 'translateX(0)'; 
+      slideBtn.style.transition = '';
+    }, 200);
+  } else {
+    slideBtn.style.transition = 'transform 0.3s ease';
+    slideBtn.style.transform = 'translateX(0)';
+    setTimeout(() => { slideBtn.style.transition = ''; }, 300);
+  }
+  document.removeEventListener('mousemove', onDrag);
+  document.removeEventListener('mouseup', endDrag);
+  document.removeEventListener('touchmove', onDrag);
+  document.removeEventListener('touchend', endDrag);
+  currentX = 0;
+}
+
+// ====== 鎖屏滑動解鎖 & 點擊解鎖 ======
 let lockStartY = 0;
 const lockScreenElement = document.getElementById('lockScreen');
 if (lockScreenElement) {
@@ -722,3 +825,45 @@ if (lockScreenElement) {
     showPasscode();
   });
 }
+
+// ====== 唯一且全域嘅返回主畫面手勢 ======
+let swipeStartY = 0;
+document.addEventListener('touchstart', function(e) {
+  if (e.touches[0].clientY > window.innerHeight - 100) {
+    swipeStartY = e.touches[0].clientY;
+  } else {
+    swipeStartY = 0;
+  }
+}, { passive: true });
+
+document.addEventListener('touchend', function(e) {
+  if (swipeStartY > 0) {
+    const dy = e.changedTouches[0].clientY - swipeStartY;
+    if (dy < -30) {
+      closeApp(); 
+      const nc = document.getElementById('notificationCenter');
+      if (nc) nc.classList.remove('show');
+    }
+  }
+}, { passive: true });
+
+// 支援電腦滑鼠測試
+let mouseStartY = 0;
+document.addEventListener('mousedown', function(e) {
+  if (e.clientY > window.innerHeight - 100) {
+    mouseStartY = e.clientY;
+  } else {
+    mouseStartY = 0;
+  }
+});
+
+document.addEventListener('mouseup', function(e) {
+  if (mouseStartY > 0) {
+    const dy = e.clientY - mouseStartY;
+    if (dy < -30) {
+      closeApp();
+      const nc = document.getElementById('notificationCenter');
+      if (nc) nc.classList.remove('show');
+    }
+  }
+});
