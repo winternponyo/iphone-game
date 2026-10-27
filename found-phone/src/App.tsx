@@ -46,9 +46,7 @@ function App() {
       {activeApp && (
         <AppView
           appName={activeApp}
-          flags={flags}
           onClose={closeApp}
-          onCallAnswered={handleCallAnswered}
         />
       )}
     </Phone>
