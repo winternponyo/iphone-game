@@ -679,11 +679,49 @@ function calcInput(val) {
   const input = document.getElementById('calcInput');
   if (val === 'C') { input.value = '0'; }
   else if (val === '=') {
-    if (input.value === '5201314') { input.style.fontSize = '24px'; input.value = 'lgywawmy❤️wmywalgy'; setTimeout(() => { input.style.fontSize = '64px'; input.value = '0'; }, 3000); }
-    else if (input.value === '319') { input.style.fontSize = '32px'; input.value = '林高远生日快乐🎂'; setTimeout(() => { input.style.fontSize = '64px'; input.value = '0'; }, 3000); }
-    else if (input.value === '209') { input.style.fontSize = '32px'; input.value = '王曼昱生日快乐🎂'; setTimeout(() => { input.style.fontSize = '64px'; input.value = '0'; }, 3000); }
-    else { try { input.value = eval(input.value); } catch { input.value = 'Error'; } }
-  } else { if (input.value === '0' && val !== '.') input.value = val; else input.value += val; }
+    // 5201314 彩蛋
+    if (input.value === '5201314') { 
+      input.style.fontSize = '24px'; 
+      input.value = 'lgywawmy❤️wmywalgy'; 
+      setTimeout(() => { input.style.fontSize = '64px'; input.value = '0'; }, 3000); 
+    }
+    // 林高遠生日 (319)
+    else if (input.value === '319') { 
+      input.style.fontSize = '32px'; 
+      input.value = ''; 
+      input.placeholder = '林高远生日快乐'; 
+      input.insertAdjacentHTML('beforebegin', '<img src="icon/cake.png" style="width: 40px; height: 40px; position: absolute; right: 20px; bottom: 100px; z-index: 10;" id="cakeImg">');
+      
+      setTimeout(() => { 
+        input.style.fontSize = '64px'; 
+        input.value = '0'; 
+        input.placeholder = '';
+        const cake = document.getElementById('cakeImg');
+        if (cake) cake.remove();
+      }, 3000); 
+    }
+    // 王曼昱生日 (209)
+    else if (input.value === '209') { 
+      input.style.fontSize = '32px'; 
+      input.value = ''; 
+      input.placeholder = '王曼昱生日快乐'; 
+      input.insertAdjacentHTML('beforebegin', '<img src="icon/cake.png" style="width: 40px; height: 40px; position: absolute; right: 20px; bottom: 100px; z-index: 10;" id="cakeImg2">');
+
+      setTimeout(() => { 
+        input.style.fontSize = '64px'; 
+        input.value = '0'; 
+        input.placeholder = '';
+        const cake = document.getElementById('cakeImg2');
+        if (cake) cake.remove();
+      }, 3000); 
+    }
+    else { 
+      try { input.value = eval(input.value); } catch { input.value = 'Error'; } 
+    }
+  } else { 
+    if (input.value === '0' && val !== '.') input.value = val; 
+    else input.value += val; 
+  }
 }
 
 let currentCalYear = 2026; 
@@ -726,18 +764,6 @@ function openXianyu() {
   `;
   appView.classList.add('show');
 }
-
-// ====== 手勢返回 & 提示 ======
-function checkMobile() {
-  const phone = document.getElementById('phone');
-  if (window.innerWidth <= 500) {
-    phone.classList.add('mob');
-  } else {
-    phone.classList.remove('mob');
-  }
-}
-window.addEventListener('resize', checkMobile);
-setTimeout(checkMobile, 100);
 
 function goHome() { closeApp(); }
 

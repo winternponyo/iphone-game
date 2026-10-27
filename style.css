@@ -3,38 +3,34 @@
 html, body {
   height: 100%;
   margin: 0;
-  background: #000; 
-  overflow: hidden;
+  background: #1a1a1a;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
+/* 👇 呢個係外殼（金屬邊框），大細會由 JS 自動計 */
 #phone {
   position: relative;
-  width: min(100vw, calc((100dvh - 36px) * 0.4613), 430px);
-  aspect-ratio: 393 / 852;
-  border-radius: 58px;
-  overflow: hidden;
-  background: #000; 
-  box-shadow: 0 0 0 10px #121214, 0 0 0 12px #3b3b40, 0 0 0 13px #18181a, 0 40px 90px rgba(0,0,0,.8);
-  isolation: isolate;
-  transform: translateZ(0);
+  padding: 10px; 
+  border-radius: 54px;
+  background: linear-gradient(105deg, #bfc0c2, #242526 5%, #111 12%, #303133 90%, #a3a4a6);
+  box-shadow: 0 0 0 1px #6b6d70, 0 0 0 2px #c0c1c3, 0 22px 46px rgba(0,0,0,0.2);
+  transform: scale(var(--phone-scale, 1));
+  transform-origin: center center;
 }
 
-#phone.mob {
-  width: 100vw !important;
-  height: 100dvh !important;
-  border-radius: 0;
-  box-shadow: none;
-  aspect-ratio: auto;
-}
-
+/* 👇 呢個係入面嘅螢幕，永遠固定 393 x 852 */
 .screen {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  width: 393px;
+  height: 852px;
+  border-radius: 44px; 
   overflow: hidden;
   background: linear-gradient(160deg, #1c1c3a 0%, #3a2b5c 40%, #6b4c7a 70%, #b76e79 100%);
+  isolation: isolate;
+  transform: translateZ(0);
 }
 
 /* 瀏海 */
@@ -62,29 +58,71 @@ html, body {
   transition: transform 0.4s ease, opacity 0.4s ease;
 }
 .lock-screen.unlocked { transform: translateY(-100%); opacity: 0; pointer-events: none; }
-.lock-date { font-size: 18px; font-weight: 500; opacity: 0.9; margin-bottom: 5px; }
-.lock-time { font-size: 92px; font-weight: 200; letter-spacing: -3px; line-height: 1; margin-bottom: 20px; }
+.lock-date { 
+  font-size: 18px; 
+  font-weight: 600; /* 粗少少 */
+  opacity: 0.9; 
+  margin-bottom: 8px; 
+  letter-spacing: 0.5px;
+}
+/* 鎖屏時間 - 還原 iOS 26 粗體發光質感 */
+.lock-time { 
+  font-size: 96px; 
+  font-weight: 700; /* 改做粗體 */
+  letter-spacing: -4px; 
+  line-height: 1; 
+  margin-bottom: 25px; 
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.2); /* 加光暈 */
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
 
 /* 鎖屏通知 */
 .lock-notification {
   position: absolute; 
   bottom: 100px; 
-  width: 85%;
+  width: 90%; /* 闊少少 */
   background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 18px;
-  padding: 15px;
-  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 20px; /* 大圓角 */
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
   transition: transform 0.2s;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 .lock-notification:active { transform: scale(0.98); }
 
 /* 心心 Widget */
-.ios-widgets { display: flex; justify-content: space-between; width: 100%; padding: 0 35px; margin-bottom: 20px; }
+/* 強制覆蓋 Widget 樣式，對齊右圖 */
+.ios-widgets {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 0 15px;
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+.ios-widgets > div {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.12) !important; /* 統一背景 */
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 22px !important; /* iOS 26 大圓角 */
+  padding: 16px 12px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  height: 140px; /* 強制高度一致 */
+  box-sizing: border-box;
+}
 .lock-bottom { position: absolute; bottom: 36px; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 0 34px; }
 .lock-circle { width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.18); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .swipe-hint { font-size: 13px; opacity: 0.9; }
@@ -357,4 +395,134 @@ html, body {
   padding-top: calc(env(safe-area-inset-top, 0px) + 20px) !important; 
   height: 100% !important;
   box-sizing: border-box !important;
+}
+
+/* ====== 鎖屏 Widget 完美還原 ====== */
+.ios-widgets {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 0 20px;
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+.lock-widget {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 22px;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  height: 140px; /* 強制對齊高度 */
+  box-sizing: border-box;
+}
+
+.widget-title {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* 距離 Widget 內部 */
+.widget-distance-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.widget-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+
+.widget-line {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+}
+
+.widget-dash {
+  flex: 1;
+  height: 1px;
+  border-bottom: 1.5px dashed rgba(255,255,255,0.4);
+}
+
+.widget-heart {
+  margin: 0 4px;
+  filter: drop-shadow(0 0 4px rgba(255,59,48,0.5));
+}
+
+/* 倒數 Widget 內部 */
+.widget-countdown {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  margin-top: 5px;
+}
+
+.countdown-num {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -1px;
+  color: #fff;
+}
+
+.countdown-unit {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+}
+
+/* ====== 鎖屏時間與日期（順手幫你改埋粗體發光） ====== */
+.lock-time { 
+  font-size: 96px; 
+  font-weight: 700; 
+  letter-spacing: -4px; 
+  line-height: 1; 
+  margin-bottom: 25px; 
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.2);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.lock-date { 
+  font-size: 18px; 
+  font-weight: 600; 
+  opacity: 0.9; 
+  margin-bottom: 8px; 
+  letter-spacing: 0.5px;
+}
+
+/* ====== 鎖屏通知質感提升 ====== */
+.lock-notification {
+  width: 88%; 
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 20px; 
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
